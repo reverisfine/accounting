@@ -116,7 +116,9 @@ header.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height
 
 /* ---------- 레이아웃 ---------- */
 .shell{max-width:var(--w);margin:0 auto;padding:34px 20px 80px;display:grid;grid-template-columns:var(--side) 1fr;gap:var(--gap);align-items:start}
-nav.steps{position:sticky;top:76px}
+nav.steps{position:sticky;top:calc(var(--headH,124px) + 18px);
+  max-height:calc(100vh - var(--headH,124px) - 36px);overflow-y:auto;overscroll-behavior:contain;
+  padding:4px 6px 10px;margin:-4px -6px 0;scrollbar-width:thin}
 nav.steps ol{list-style:none;margin:0;padding:0}
 nav.steps li{margin:0 0 5px}
 nav.steps button{width:100%;text-align:left;background:var(--card);border:0;border-radius:12px;
@@ -131,7 +133,7 @@ nav.steps .tick{margin-left:auto;font-size:11.5px;color:var(--ok);font-family:"I
 nav.steps button[aria-current="true"] .tick{color:#fff}
 @media(max-width:1023px){
   .shell{grid-template-columns:1fr;gap:16px;padding:22px 16px 70px}
-  nav.steps{position:sticky;top:0;z-index:30;background:var(--paper);overflow-x:auto;padding:8px 0 6px;margin:-8px 0 0}
+  nav.steps{position:sticky;top:var(--headH,124px);z-index:30;background:var(--paper);overflow-x:auto;overflow-y:hidden;max-height:none;padding:8px 0 6px;margin:-8px 0 0}
   nav.steps ol{display:flex;gap:6px;min-width:max-content}
   nav.steps button{white-space:nowrap;padding:9px 15px}
   nav.steps .tick{display:none}
@@ -1905,7 +1907,7 @@ function applyZoom(){
 }
 document.getElementById("sizeBtn").onclick = ()=>{
   const i=ZOOMS.indexOf(state.zoom||1);
-  state.zoom = ZOOMS[(i+1)%ZOOMS.length]; save(); applyZoom();
+  state.zoom = ZOOMS[(i+1)%ZOOMS.length]; save(); applyZoom(); setHeadH();
 };
 document.getElementById("themeBtn").onclick = ()=>{
   const cur = document.documentElement.getAttribute("data-theme");
@@ -1918,7 +1920,13 @@ document.getElementById("resetBtn").onclick = ()=>{
   state={step:state.step, res:{}, inputs:{}, fs:{}, essay:{}, theme:state.theme, zoom:state.zoom};
   save(); render();
 };
-buildNav(); applyZoom(); render();
+function setHeadH(){
+  const h=document.querySelector("header.top");
+  if(h && h.offsetHeight>0) document.documentElement.style.setProperty("--headH", h.offsetHeight+"px");
+}
+window.addEventListener("resize", setHeadH);
+if(window.ResizeObserver){ new ResizeObserver(setHeadH).observe(document.querySelector("header.top")); }
+buildNav(); applyZoom(); setHeadH(); render();
 </script>
 </body>
 </html>
