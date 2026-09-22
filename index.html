@@ -59,12 +59,13 @@ a{color:inherit;text-decoration:none}
 .hl{background:linear-gradient(transparent 55%, var(--tape-y) 55%);padding:0 4px;color:var(--ink)}
 
 header.top{background:linear-gradient(180deg,var(--head) 0%,var(--head-2) 100%);border-bottom:1px solid var(--rule)}
-.foldtab{max-width:var(--w);margin:0 auto;padding:7px 20px 0;display:flex;align-items:flex-end}
-.foldtab span{background:var(--card);border-radius:10px 16px 0 0;padding:5px 20px 5px 16px;
-  font-size:12.5px;font-weight:700;color:var(--ink-2);position:relative;z-index:3}
-.foldtab i{display:block;height:22px;border-radius:4px 16px 0 0;margin-left:-14px}
-.foldtab i.y{width:64px;background:var(--tab-y);z-index:2}
-.foldtab i.m{width:64px;background:var(--tab-m);z-index:1}
+.foldtab{max-width:var(--w);margin:0 auto;padding:8px 20px 0;display:flex;align-items:flex-end}
+.foldtab .tab{position:relative;display:inline-flex;align-items:center;height:30px;padding:0 16px;
+  font-size:12.5px;font-weight:700;line-height:1;border-radius:12px 14px 0 0;white-space:nowrap;
+  background:var(--card);color:var(--brand);z-index:4}
+.foldtab i{display:block;height:22px;margin-left:-13px;border-radius:0 14px 0 0}
+.foldtab i.y{width:54px;background:var(--tab-y);z-index:2}
+.foldtab i.m{width:48px;background:var(--tab-m);z-index:1}
 .top-in{max-width:var(--w);margin:0 auto;padding:16px 20px 26px;display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
 .brand{margin-right:auto}
 .brand b{display:block;font-family:"Jua",sans-serif;font-weight:400;font-size:28px;color:var(--brand)}
@@ -117,7 +118,7 @@ footer{max-width:var(--w);margin:0 auto;padding:0 20px 46px;font-size:12px;color
 </head>
 <body>
 <header class="top">
-  <div class="foldtab"><span>회계 교실</span><i class="y"></i><i class="m"></i></div>
+  <div class="foldtab"><span class="tab">회계 교실</span><i class="y"></i><i class="m"></i></div>
   <div class="top-in">
     <div class="brand">
       <b>은또링쌤의 친절한 <span class="hl">회계 교실</span></b>
@@ -149,6 +150,12 @@ footer{max-width:var(--w);margin:0 auto;padding:0 20px 46px;font-size:12px;color
    file : 같은 폴더의 파일 이름. 아직 없으면 "" 로 두세요(준비 중으로 표시됩니다).
    ───────────────────────────────────────────── */
 const ITEMS = [
+  {
+    title:"제19회 실기 모의문제 실습",
+    file:"splus-19.html",
+    desc:"(주)드림패션의 7월 거래를 기준정보부터 결산·조회까지 입력합니다. 금융자산 처분, 자기앞수표, 사회보험료, 미수수익, 현금과부족이 핵심입니다.",
+    tags:["웹앱","New sPLUS","3학년 회계실무"]
+  },
   {
     title:"제20회 실기 모의문제 실습",
     file:"splus-20.html",
