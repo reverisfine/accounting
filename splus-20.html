@@ -465,7 +465,7 @@ footer.foot{max-width:var(--w);margin:0 auto;padding:26px 16px 44px;color:var(--
 </div>
 <div class="lookup" id="lookup" hidden role="dialog" aria-modal="true" aria-labelledby="lkTitle">
   <div class="lkbox">
-    <div class="lkhead"><b id="lkTitle">계정과목 조회</b><button type="button" id="lkClose">닫기 (Esc)</button></div>
+    <div class="lkhead"><b id="lkTitle">계정과목 조회</b><span style="display:flex;gap:6px"><button type="button" id="lkClear">비우기</button><button type="button" id="lkClose">닫기 (Esc)</button></span></div>
     <input type="text" class="lksearch" id="lkSearch" placeholder="이름이나 코드를 입력하세요" autocomplete="off">
     <ul class="lklist" id="lkList" role="listbox"></ul>
     <div class="lkfoot">↑ ↓ 이동 · Enter 선택 · Esc 닫기</div>
@@ -882,7 +882,7 @@ function viewIntro(){
     </ol>
     <div class="hint"><b>입력 원칙</b> · 채권·채무 및 금융 거래는 반드시 거래처 코드를 입력하고, 각 문항별로 <b>전표번호 한 개</b>로 묶어 입력합니다.<br>
      금액 칸에서는 프로그램과 똑같이 <kbd>+</kbd> 키를 누르면 <b>0이 세 개</b> 붙습니다. 4를 치고 <kbd>+</kbd>를 두 번 누르면 4,000,000.<br>
-     계정과목·거래처 칸에서 <kbd>F2</kbd>를 누르면 <b>조회창</b>이 열립니다. 이름을 입력해 찾고 Enter로 선택하세요.</div>`,"intro")}
+     계정과목·거래처 칸을 <b>클릭하거나</b> Tab으로 이동한 뒤 <kbd>F2</kbd>를 누르면 <b>조회창</b>이 열립니다. 이름을 입력해 찾고 Enter로 선택하세요.</div>`,"intro")}
   ${qCard("평가","이 실습에서 확인하는 것",`
     <table class="data"><tr><th>단계</th><th>하는 일</th><th>배점</th></tr>
     <tr><td class="l">1. 기준정보 입력</td><td class="l">품목·금융거래처·부서·일반거래처 등록 위치 찾기</td><td>${BASE.length}</td></tr>
@@ -907,7 +907,7 @@ function viewTx(){
     `${t.doc||""}
      <p class="note" style="margin-top:14px;font-weight:600;color:var(--ink)">① 어떤 전표로 입력할까요?</p>
      ${mcBlock(t.id+"_s", t.slipOpts)}
-     <p class="note" style="margin-top:14px;font-weight:600;color:var(--ink)">② 분개를 작성하세요. <span style="font-weight:400;color:var(--ink-3)">계정과목·거래처 칸에서 <kbd>F2</kbd> 조회, 금액 칸에서 <kbd>+</kbd> 는 000</span></p>
+     <p class="note" style="margin-top:14px;font-weight:600;color:var(--ink)">② 분개를 작성하세요. <span style="font-weight:400;color:var(--ink-3)">계정과목·거래처 칸 클릭 또는 <kbd>F2</kbd> 조회, 금액 칸에서 <kbd>+</kbd> 는 000</span></p>
      ${jrnBlock(t.id+"_j", t.dRows, t.cRows)}
      ${actions(t.id)}
      <div class="sol" hidden><h4>풀이</h4><div class="path" style="white-space:normal">${t.path}</div>
@@ -1869,7 +1869,18 @@ LK.list.addEventListener("click", e=>{
   const li=e.target.closest("li[role=option]"); if(li) pickLookup(Number(li.dataset.i));
 });
 document.getElementById("lkClose").addEventListener("click", closeLookup);
+document.getElementById("lkClear").addEventListener("click", ()=>{
+  if(!LK.target) return; const t=LK.target; t.value="";
+  t.dispatchEvent(new Event("change",{bubbles:true})); closeLookup();
+});
 LK.el.addEventListener("click", e=>{ if(e.target===LK.el) closeLookup(); });
+const isLookupField = t => t && t.tagName==="SELECT" && t.classList && (t.classList.contains("acc")||t.classList.contains("ptn"));
+view.addEventListener("mousedown", e=>{
+  const t=e.target;
+  if(!isLookupField(t)) return;
+  if(window.matchMedia && window.matchMedia("(pointer:coarse)").matches) return;  /* 태블릿은 기본 목록 */
+  e.preventDefault(); t.focus(); openLookup(t);
+});
 view.addEventListener("keydown", e=>{
   const t=e.target;
   if(e.key!=="F2" || !t || t.tagName!=="SELECT" || !t.classList) return;
