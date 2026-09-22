@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회계실무 실습실 · 제19회 전산회계운용사 모의문제</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&family=IBM+Plex+Mono:wght@400;500;600&family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF3F6; --head:#E7F0F4; --head-2:#F3F7F9;
+  --card:#FFFFFF; --card-2:#F5F7FA;
+  --ink:#282D35; --ink-2:#5D656F; --ink-3:#9AA3AD;
+  --rule:#E4E8EC; --rule-2:#F1F3F6;
+  --brand:#4055E0; --brand-soft:#8F9CF0; --brand-bg:#EBEEFD;
+  --teal:#32BFC0; --teal-bg:#E5F6F6;
+  --tape-y:#FBE9A0; --tab-y:#FBF1C4; --tab-m:#CFE9E8;
+  --debit:#4055E0; --debit-bg:#EBEEFD;
+  --credit:#EE6A50; --credit-bg:#FDECE8;
+  --ok:#1FA36E; --ok-bg:#E6F5EE;
+  --no:#EE6A50; --no-bg:#FDECE8;
+  --warn:#A07A10; --warn-bg:#FCF5DE;
+  --rail:#4055E0;
+  --shadow:0 1px 2px rgba(40,45,53,.04), 0 10px 24px -20px rgba(40,45,53,.5);
+  --w:1180px; --side:206px; --gap:28px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111722; --head:#18212F; --head-2:#141C28;
+    --card:#1A2130; --card-2:#222B3B;
+    --ink:#EAEEF4; --ink-2:#A7B1BE; --ink-3:#78828F;
+    --rule:#2B3447; --rule-2:#232B3A;
+    --brand:#8C9CFF; --brand-soft:#5A6ACB; --brand-bg:#1F2743;
+    --teal:#4FD3D3; --teal-bg:#153030;
+    --tape-y:#8B7638; --tab-y:#3A3418; --tab-m:#1E3838;
+    --debit:#8C9CFF; --debit-bg:#1F2743;
+    --credit:#F08D74; --credit-bg:#36211B;
+    --ok:#4FC391; --ok-bg:#132C22;
+    --no:#F08D74; --no-bg:#36211B;
+    --warn:#D6AC4A; --warn-bg:#2C2611;
+    --rail:#8C9CFF;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 24px -20px #000;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111722; --head:#18212F; --head-2:#141C28;
+  --card:#1A2130; --card-2:#222B3B;
+  --ink:#EAEEF4; --ink-2:#A7B1BE; --ink-3:#78828F;
+  --rule:#2B3447; --rule-2:#232B3A;
+  --brand:#8C9CFF; --brand-soft:#5A6ACB; --brand-bg:#1F2743;
+  --teal:#4FD3D3; --teal-bg:#153030;
+  --tape-y:#8B7638; --tab-y:#3A3418; --tab-m:#1E3838;
+  --debit:#8C9CFF; --debit-bg:#1F2743;
+  --credit:#F08D74; --credit-bg:#36211B;
+  --ok:#4FC391; --ok-bg:#132C22;
+  --no:#F08D74; --no-bg:#36211B;
+  --warn:#D6AC4A; --warn-bg:#2C2611;
+  --rail:#8C9CFF;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 24px -20px #000;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans KR",system-ui,-apple-system,"Malgun Gothic",sans-serif;
+  font-size:15px;line-height:1.7;-webkit-text-size-adjust:100%;
+  word-break:keep-all;overflow-wrap:break-word;line-break:strict}
+input,select,textarea,button{word-break:keep-all;overflow-wrap:break-word}
+.num,.amt,input.amt{font-family:"IBM Plex Mono","Noto Sans KR",monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+h1,h2,h3{font-family:"Jua","Noto Sans KR",sans-serif;font-weight:400;line-height:1.35;margin:0;letter-spacing:-.01em}
+a{color:var(--brand)}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--brand-soft);outline-offset:2px;border-radius:4px}
+mark,.hl{background:linear-gradient(transparent 55%, var(--tape-y) 55%);color:inherit;padding:0 2px}
+
+/* ---------- 상단 띠 ---------- */
+header.top{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,var(--head) 0%,var(--head-2) 100%);border:0}
+.foldtab{max-width:var(--w);margin:0 auto;padding:8px 20px 0;display:flex;align-items:flex-end}
+.foldtab .tab{position:relative;display:inline-flex;align-items:center;height:30px;padding:0 16px;
+  font-size:12.5px;line-height:1;border-radius:12px 14px 0 0;white-space:nowrap;text-decoration:none}
+.foldtab .home{background:var(--card);color:var(--brand);font-weight:700;z-index:4}
+.foldtab .home:hover{color:var(--ink)}
+.foldtab .here{background:var(--card-2);color:var(--ink-2);height:26px;
+  margin-left:-12px;padding:0 15px 0 23px;border-radius:0 14px 0 0;z-index:3}
+.foldtab i{display:block;height:22px;margin-left:-13px;border-radius:0 14px 0 0}
+.foldtab i.y{width:54px;background:var(--tab-y);z-index:2}
+.foldtab i.m{width:48px;background:var(--tab-m);z-index:1}
+.top-in{max-width:var(--w);margin:0 auto;padding:12px 16px 14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:2px;margin-right:auto;min-width:0}
+.brand b{font-family:"Jua",sans-serif;font-weight:400;font-size:22px;color:var(--brand);letter-spacing:-.01em}
+.brand > span{font-size:12px;color:var(--ink-2)}
+.brand b .hl{font-size:inherit;padding:0 4px;color:var(--ink)}
+.firm{font-size:12px;color:var(--ink-2);background:var(--card);border:0;border-radius:999px;
+  padding:6px 14px;white-space:nowrap;box-shadow:var(--shadow)}
+.firm b{font-weight:700;color:var(--ink)}
+.score{display:flex;align-items:baseline;gap:6px;white-space:nowrap;background:var(--brand);
+  padding:4px 14px;border-radius:999px}
+.score .n{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:600;color:#fff}
+.score .l{font-size:11.5px;color:rgba(255,255,255,.8)}
+:root[data-theme="dark"] .score .n{color:#141B28}
+:root[data-theme="dark"] .score .l{color:rgba(20,27,40,.7)}
+.iconbtn{background:var(--card);border:0;color:var(--ink-2);border-radius:999px;padding:6px 13px;font-size:12.5px;box-shadow:var(--shadow)}
+.iconbtn:hover{color:var(--brand)}
+.bar{position:relative;height:20px;max-width:var(--w);margin:0 auto;padding:0 20px}
+.bar::before{content:"";position:absolute;left:20px;right:20px;top:50%;transform:translateY(-50%);height:12px;
+  background:
+    linear-gradient(var(--rail),var(--rail)) left center/1.5px 12px no-repeat,
+    linear-gradient(var(--rail),var(--rail)) right center/1.5px 12px no-repeat,
+    linear-gradient(var(--rail),var(--rail)) center/100% 1.5px no-repeat;
+  opacity:.55}
+.bar i{position:absolute;left:20px;top:50%;transform:translateY(-50%);height:1.5px;
+  background:var(--rail);width:0;transition:width .35s ease}
+.bar i::after{content:"◇●◇";position:absolute;right:0;top:50%;transform:translate(50%,-50%);
+  font-size:10px;letter-spacing:.5px;color:var(--rail);background:var(--head);padding:0 3px;line-height:1}
+header.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--rule)}
+
+/* ---------- 레이아웃 ---------- */
+.shell{max-width:var(--w);margin:0 auto;padding:34px 20px 80px;display:grid;grid-template-columns:var(--side) 1fr;gap:var(--gap);align-items:start}
+nav.steps{position:sticky;top:76px}
+nav.steps ol{list-style:none;margin:0;padding:0}
+nav.steps li{margin:0 0 5px}
+nav.steps button{width:100%;text-align:left;background:var(--card);border:0;border-radius:12px;
+  padding:10px 14px;color:var(--ink-2);display:flex;gap:10px;align-items:baseline;font-size:13.5px;box-shadow:var(--shadow)}
+nav.steps button .k{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--brand-soft);font-weight:600}
+nav.steps button:hover{color:var(--ink)}
+nav.steps button[aria-current="true"]{background:var(--brand);color:#fff;font-weight:700}
+nav.steps button[aria-current="true"] .k{color:rgba(255,255,255,.8)}
+:root[data-theme="dark"] nav.steps button[aria-current="true"]{color:#141B28}
+:root[data-theme="dark"] nav.steps button[aria-current="true"] .k{color:rgba(20,27,40,.7)}
+nav.steps .tick{margin-left:auto;font-size:11.5px;color:var(--ok);font-family:"IBM Plex Mono",monospace}
+nav.steps button[aria-current="true"] .tick{color:#fff}
+@media(max-width:1023px){
+  .shell{grid-template-columns:1fr;gap:16px;padding:22px 16px 70px}
+  nav.steps{position:sticky;top:0;z-index:30;background:var(--paper);overflow-x:auto;padding:8px 0 6px;margin:-8px 0 0}
+  nav.steps ol{display:flex;gap:6px;min-width:max-content}
+  nav.steps button{white-space:nowrap;padding:9px 15px}
+  nav.steps .tick{display:none}
+}
+/* 넓은 데스크톱 화면 */
+@media(min-width:1440px){
+  :root{--w:1330px; --side:224px; --gap:34px}
+  body{font-size:16px}
+  .lede h2{font-size:32px}
+  .lede.hero h2{font-size:42px}
+  .q .qt{font-size:16.5px}
+}
+@media(min-width:1800px){ :root{--w:1440px} }
+/* 태블릿 가로 (사이드바는 유지하되 여백 축소) */
+@media(min-width:1024px) and (max-width:1300px){
+  :root{--side:190px; --gap:22px}
+}
+/* 터치 화면 : 손가락으로 누를 수 있는 크기 */
+@media (pointer:coarse){
+  body{font-size:16px}
+  select,input[type="text"],input[type="number"]{min-height:46px;font-size:16px}
+  textarea{font-size:16px}
+  table.rep textarea,table.rep select{min-height:0;font-size:14px}
+  .btn{padding:12px 26px;font-size:15px}
+  .btn.ghost,.iconbtn,.copy,.caseSel button{padding:11px 20px;font-size:14px}
+  .opt{padding:14px 15px;font-size:15px}
+  .opt input{transform:scale(1.25);margin-top:6px}
+  .check{padding:12px 0;font-size:15px}
+  .addrow{padding:11px 10px;font-size:14px}
+  nav.steps button{padding:12px 18px;font-size:15px}
+  .rowdel{padding:10px 12px;font-size:19px}
+  input[type="range"]{height:34px}
+}
+
+/* ---------- 섹션 머리 ---------- */
+.chtape{display:inline-block;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;
+  letter-spacing:.08em;color:var(--brand);background:var(--brand-bg);padding:4px 14px;border-radius:999px;margin-bottom:12px}
+.lede{padding:0;margin:0 0 26px;text-align:left}
+.lede.hero{text-align:center;padding:14px 0 6px;margin-bottom:30px}
+.lede.hero h2{font-size:38px;line-height:1.28}
+.lede.hero p{margin-left:auto;margin-right:auto;text-align:center}
+.lede.hero .eyebrow{font-size:14px;color:var(--ink-2);margin:0 0 6px}
+@media(max-width:600px){.lede.hero h2{font-size:28px}.lede h2{font-size:24px}}
+.lede h2{font-size:29px;color:var(--brand);line-height:1.3}
+.lede::after{content:"";display:block;height:12px;margin-top:18px;
+  background:
+    linear-gradient(var(--rail),var(--rail)) left center/1.5px 12px no-repeat,
+    linear-gradient(var(--rail),var(--rail)) right center/1.5px 12px no-repeat,
+    radial-gradient(circle, var(--rail) 2.6px, rgba(0,0,0,0) 3px) center/14px 14px no-repeat,
+    linear-gradient(var(--rail),var(--rail)) center/100% 1.5px no-repeat;
+  opacity:.6}
+.lede p{margin:10px 0 0;color:var(--ink-2);font-size:14px;max-width:66ch;line-height:1.75}
+h3{font-size:19px}
+
+/* ---------- 카드 ---------- */
+.q{background:var(--card);border:0;border-radius:18px;margin:0 0 18px;box-shadow:var(--shadow);padding-top:6px}
+.q > header{display:flex;gap:11px;align-items:flex-start;padding:10px 18px 4px;background:none;border:0}
+.q .tag{font-weight:700;font-size:12.5px;color:#fff;background:var(--brand);border:0;border-radius:999px;
+  padding:3px 14px;white-space:nowrap;margin-top:3px}
+:root[data-theme="dark"] .q .tag{color:#141B28}
+#view[data-step="s5"] .q .tag,#view[data-step="s6"] .q .tag{background:var(--teal)}
+#view[data-step="s5"] .chtape,#view[data-step="s6"] .chtape{color:var(--teal);background:var(--teal-bg)}
+#view[data-step="s5"] .lede h2,#view[data-step="s6"] .lede h2{color:var(--teal)}
+.q .qt{font-size:15.5px;font-weight:700;flex:1;min-width:0;line-height:1.55}
+.q .body{padding:8px 18px 18px}
+.q .body > :first-child{margin-top:0}
+.hint{position:relative;font-size:13px;color:var(--ink-2);background:var(--card-2);border:0;border-radius:14px;
+  padding:20px 16px 14px;margin:24px 0 0}
+.hint::before{content:"TIP";position:absolute;top:-12px;left:14px;background:var(--card);
+  border:1.5px solid var(--brand);color:var(--brand);font-weight:700;font-size:11px;letter-spacing:.06em;
+  padding:2px 11px;border-radius:7px 7px 7px 0}
+.hint b{color:var(--ink)}
+.note{font-size:13px;color:var(--ink-2);margin:10px 0 0}
+kbd{font-family:"IBM Plex Mono",monospace;font-size:11.5px;border:0;border-radius:4px;padding:2px 7px;background:var(--brand-bg);color:var(--brand);font-weight:600}
+.path{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink);background:var(--card-2);
+  border:0;border-left:4px solid var(--brand);padding:9px 12px;border-radius:0 4px 4px 0;display:block;max-width:100%;overflow-x:auto}
+
+/* ---------- 표 ---------- */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.data{border-collapse:collapse;width:100%;font-size:13px;min-width:460px}
+table.data th,table.data td{border:1px solid var(--rule);padding:7px 9px;text-align:center}
+table.data th{background:var(--brand-bg);font-weight:700;color:var(--ink);font-size:12.5px;border-color:var(--rule)}
+table.data td.l{text-align:left}
+table.data td.r{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.inv{border:2px solid var(--ink);padding:0;font-size:11.5px;min-width:620px;background:var(--card)}
+.inv table{border-collapse:collapse;width:100%}
+.inv td,.inv th{border:1px solid var(--rule);padding:4px 6px}
+.inv .ttl{font-family:"Jua",sans-serif;font-size:19px;letter-spacing:.18em;text-align:center;border:0}
+.inv .lab{background:var(--card-2);color:var(--ink-2);text-align:center;font-weight:500;white-space:nowrap}
+.inv .side{background:var(--brand-bg);writing-mode:vertical-rl;text-align:center;width:22px;letter-spacing:.35em;font-weight:700}
+.inv .r{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.inv .c{text-align:center}
+.pay{font-size:11.5px}
+.pay .lab{background:var(--card-2);text-align:center}
+.slip{border:2px solid var(--ink);background:var(--card);padding:14px;min-width:460px}
+.slip h4{font-family:"Jua",sans-serif;font-weight:400;text-align:center;margin:2px 0 0;font-size:18px}
+.slip .to{text-align:center;font-size:13px;margin:2px 0 10px;color:var(--ink-2)}
+.slip table{border-collapse:collapse;width:100%;font-size:12.5px}
+.slip td,.slip th{border:1px solid var(--rule);padding:5px 8px}
+.slip th{background:var(--card-2);font-weight:700}
+.slip td.r{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.slip tr.sum td,.slip tr.sum th{background:var(--card-2);font-weight:700}
+
+/* ---------- 전표 ---------- */
+.jrn{border:0;border-radius:4px;overflow:hidden;background:var(--card-2)}
+.jrn .jhead{display:grid;grid-template-columns:1fr 1fr;font-size:13px;font-weight:700}
+.jrn .jhead div{padding:8px 12px;text-align:center}
+.jrn .jhead .d{background:var(--debit);color:#fff}
+.jrn .jhead .c{background:var(--credit);color:#fff}
+.jgrid{display:grid;grid-template-columns:1fr 1fr}
+.jside{padding:12px}
+.jside.d{border-right:2px dashed var(--rule)}
+@media(max-width:700px){
+  .jrn .jhead{grid-template-columns:1fr}
+  .jrn .jhead .c{display:none}
+  .jgrid{grid-template-columns:1fr}
+  .jside.d{border-right:0;border-bottom:2px dashed var(--rule)}
+  .jside.c::before{content:"대변";display:block;font-size:12.5px;font-weight:700;color:var(--credit);margin-bottom:7px}
+}
+.row{display:grid;grid-template-columns:1fr 110px 130px;gap:6px;margin-bottom:6px;align-items:center}
+@media(max-width:1200px){.row{grid-template-columns:1fr 96px 118px}}
+@media(max-width:900px){.row{grid-template-columns:1fr 1fr;grid-template-areas:"a a" "p m";gap:6px;margin-bottom:10px}
+ .row select.acc{grid-area:a}.row select.ptn{grid-area:p}.row input.amt{grid-area:m}}
+select,input[type="text"],input[type="number"],textarea{
+  width:100%;background:var(--card);color:var(--ink);border:1.5px solid var(--rule);
+  border-radius:4px;padding:7px 9px;font-size:13.5px;font-family:inherit}
+input.amt{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+select:hover,input:hover,textarea:hover{border-color:var(--brand-soft)}
+select:focus,input:focus,textarea:focus{border-color:var(--brand);outline:none}
+.row.ok select,.row.ok input{background:var(--ok-bg);border-color:var(--ok)}
+.row.bad select,.row.bad input{background:var(--no-bg);border-color:var(--no)}
+.sumline{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--ink-2);
+  border-top:1px solid var(--rule);margin-top:9px;padding-top:6px}
+.sumline b{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--ink)}
+.sumline.dbl{border-top:3px double var(--ink-3)}
+.addrow{background:none;border:1.5px dashed var(--rule);color:var(--ink-3);border-radius:4px;padding:4px 9px;font-size:12.5px;width:100%}
+.addrow:hover{color:var(--brand);border-color:var(--brand-soft)}
+
+/* ---------- 동작 ---------- */
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px;align-items:center}
+.btn{background:var(--brand);color:#fff;border:0;border-radius:999px;padding:9px 22px;font-weight:700;font-size:13.5px;box-shadow:var(--shadow)}
+:root[data-theme="dark"] .btn{color:#10202E}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#10202E}}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .btn{color:#fff}}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:var(--card);color:var(--ink-2);font-weight:500}
+.btn.ghost:hover{color:var(--brand)}
+.verdict{font-size:13px;font-weight:700;padding:5px 13px;border-radius:999px}
+.verdict.ok{color:#fff;background:var(--ok)}
+.verdict.bad{color:#fff;background:var(--no)}
+:root[data-theme="dark"] .verdict.ok,:root[data-theme="dark"] .verdict.bad{color:#12181F}
+.sol{margin-top:15px;border:0;border-radius:16px;background:var(--brand-bg);padding:16px 18px;font-size:13.5px}
+.sol[hidden]{display:none}
+.sol h4{font-family:"Jua",sans-serif;font-weight:400;font-size:16px;color:var(--brand);margin:0 0 9px}
+.sol .je{display:grid;grid-template-columns:1fr 1fr;gap:0;border:0;border-radius:4px;margin:11px 0;background:var(--card);overflow:hidden}
+.sol .je > div{padding:10px 13px;font-size:13px}
+.sol .je .d{border-right:2px dashed var(--rule)}
+.sol .je .lbl{font-size:11.5px;font-weight:700;letter-spacing:.06em;margin-bottom:5px}
+.sol .je .d .lbl{color:var(--debit)}
+.sol .je .c .lbl{color:var(--credit)}
+.sol .je p{margin:0;display:flex;justify-content:space-between;gap:12px}
+.sol .je p span:last-child{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+@media(max-width:560px){.sol .je{grid-template-columns:1fr}.sol .je .d{border-right:0;border-bottom:2px dashed var(--rule)}}
+.opts{display:grid;gap:7px;margin:0}
+.opt{display:flex;gap:11px;align-items:flex-start;border:1.5px solid transparent;border-radius:14px;
+  padding:12px 16px;font-size:13.5px;cursor:pointer;background:var(--card-2)}
+.opt:hover{border-color:var(--brand-soft)}
+.opt input{width:auto;margin:5px 0 0;accent-color:var(--brand)}
+.opt.ok{border-color:var(--ok);background:var(--ok-bg)}
+.opt.bad{border-color:var(--no);background:var(--no-bg)}
+.opt .path{white-space:normal;flex:1;min-width:0;border:0;background:none;padding:0}
+.fieldline{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:11px}
+.fieldline label{font-size:13.5px;color:var(--ink-2);min-width:150px}
+.fieldline input{max-width:190px}
+.fieldline .u{font-size:12.5px;color:var(--ink-3)}
+.calc{font-family:"IBM Plex Mono",monospace;font-size:12.5px;background:var(--warn-bg);color:var(--ink);
+  border:0;border-left:4px solid var(--tape-y);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;overflow-x:auto;white-space:nowrap}
+
+/* ---------- 분석 ---------- */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.fs{background:var(--card);border:0;border-radius:4px;padding:16px 17px;box-shadow:var(--shadow)}
+.fs h3{font-size:16px;font-family:"Jua",sans-serif;margin:0 0 3px}
+.fs .sub{font-size:12px;color:var(--ink-3);margin:0 0 12px}
+.fsrow{display:grid;grid-template-columns:1fr 130px;gap:9px;align-items:center;margin-bottom:6px;font-size:13.5px}
+.fsrow.calc-row{color:var(--ink-2)}
+.fsrow.calc-row .v{font-family:"IBM Plex Mono",monospace;text-align:right;font-variant-numeric:tabular-nums;padding-right:9px}
+.fsrow.total{border-top:1px solid var(--rule);padding-top:7px;margin-top:7px;font-weight:700}
+.warnbox{background:var(--warn-bg);border:0;border-left:4px solid var(--warn);color:var(--ink);font-size:13px;padding:10px 13px;border-radius:0 4px 4px 0;margin:13px 0}
+.okbox{background:var(--ok-bg);border:0;border-left:4px solid var(--ok);color:var(--ink);font-size:13px;padding:10px 13px;border-radius:0 4px 4px 0;margin:13px 0}
+.ratios{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:6px}
+.rc{border:0;border-radius:4px;background:var(--card);padding:14px 15px;box-shadow:var(--shadow)}
+.rc .rn{font-size:13px;font-weight:700}
+.rc .rv{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:600;line-height:1.2;margin:4px 0 1px}
+.rc .rf{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);margin-bottom:9px}
+.rc svg{display:block;width:100%;height:10px}
+.rc .rj{font-size:12px;margin-top:6px;color:var(--ink-2)}
+.rc{transition:transform .16s ease, box-shadow .16s ease;cursor:default;outline:none}
+.rc:hover,.rc:focus-visible{transform:translateY(-3px);
+  box-shadow:0 0 0 2px var(--c,var(--brand)), 0 16px 30px -22px rgba(40,45,53,.75)}
+.rc:hover .rv,.rc:focus-visible .rv{letter-spacing:-.02em}
+.rc:hover .rf,.rc:focus-visible .rf{color:var(--ink-2)}
+.rc:hover svg,.rc:focus-visible svg{height:13px;transition:height .16s ease}
+.rc .refnote{font-size:11.5px;color:var(--ink-2);line-height:1.6;
+  max-height:0;opacity:0;overflow:hidden;transition:max-height .2s ease, opacity .18s ease, margin-top .2s ease}
+.rc .refnote b{color:var(--c,var(--brand))}
+.rc:hover .refnote,.rc:focus-visible .refnote{max-height:90px;opacity:1;margin-top:8px}
+@media (pointer:coarse){
+  .rc .refnote{max-height:90px;opacity:1;margin-top:8px}
+  .rc:hover,.rc:focus-visible{transform:none}
+}
+.dupont{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:6px}
+.dp{flex:1 1 150px;border:0;border-radius:4px;background:var(--card);padding:13px 15px;min-width:0;box-shadow:var(--shadow)}
+.dp .l{font-size:12.5px;color:var(--ink-2)}
+.dp .v{font-family:"IBM Plex Mono",monospace;font-size:23px;font-weight:600;margin:2px 0 1px}
+.dp .f{font-size:11px;color:var(--ink-3);font-family:"IBM Plex Mono",monospace}
+.dp.res{background:var(--brand)}
+.dp.res .l,.dp.res .f{color:rgba(255,255,255,.75)}
+.dp.res .v{color:#fff}
+:root[data-theme="dark"] .dp.res .l,:root[data-theme="dark"] .dp.res .f{color:rgba(20,27,40,.7)}
+:root[data-theme="dark"] .dp.res .v{color:#141B28}
+.op{display:flex;align-items:center;font-family:"Jua",sans-serif;font-size:21px;color:var(--ink-3);padding:0 2px}
+@media(max-width:700px){.dupont{flex-direction:column}.op{justify-content:center;padding:2px 0}}
+.ccc svg{width:100%;height:clamp(120px,16vh,180px);display:block}
+.bepwrap{display:grid;grid-template-columns:1fr 250px;gap:18px;align-items:start}
+@media(max-width:1000px){.bepwrap{grid-template-columns:1fr}}
+.bep svg{width:100%;height:clamp(200px,26vh,300px);display:block;background:var(--card-2);border-radius:4px}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:9px;margin-top:12px}
+.kpi div{border:0;border-radius:4px;padding:9px 11px;background:var(--card);box-shadow:var(--shadow)}
+.kpi .l{font-size:11.5px;color:var(--ink-2)}
+.kpi .v{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600}
+input[type="range"]{width:100%;accent-color:var(--brand);padding:0;border:0;background:none}
+.firmcard{border:0;border-radius:4px;background:var(--card);padding:14px 15px;margin-bottom:11px;box-shadow:var(--shadow)}
+.firmcard h4{font-family:"Jua",sans-serif;font-weight:400;font-size:17px;margin:0 0 9px}
+.firmcard table{width:100%;border-collapse:collapse;font-size:12.5px}
+.firmcard td{padding:4px 0;border-bottom:1px solid var(--rule-2)}
+.firmcard td:last-child{text-align:right;font-family:"IBM Plex Mono",monospace}
+.firmcard.ok{box-shadow:0 0 0 2px var(--ok), var(--shadow)}
+.firmcard.bad{box-shadow:0 0 0 2px var(--no), var(--shadow)}
+.firmcard .pick{margin-top:10px}
+.caseSel{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:15px}
+.caseSel button{border:0;background:var(--card);color:var(--ink-2);border-radius:999px;padding:8px 16px;font-size:13px;box-shadow:var(--shadow)}
+.caseSel button[aria-pressed="true"]{background:var(--brand);color:#fff;font-weight:700}
+:root[data-theme="dark"] .caseSel button[aria-pressed="true"]{color:#141B28}
+
+/* F2 조회창 */
+.lookup{position:fixed;inset:0;z-index:90;background:rgba(20,25,35,.45);display:flex;
+  align-items:center;justify-content:center;padding:20px}
+.lookup[hidden]{display:none}
+.lkbox{width:100%;max-width:440px;max-height:80vh;background:var(--card);border-radius:18px;
+  box-shadow:0 24px 60px -24px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden}
+.lkhead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 10px}
+.lkhead b{font-size:15px;color:var(--brand)}
+.lkhead button{background:var(--card-2);border:0;color:var(--ink-2);border-radius:999px;padding:5px 13px;font-size:12.5px}
+.lkbox .lksearch{margin:0 16px 10px;width:auto}
+.lklist{list-style:none;margin:0;padding:0 8px 8px;overflow-y:auto;flex:1}
+.lklist li{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;font-size:14px;cursor:pointer}
+.lklist li .g{font-size:11px;font-weight:700;color:var(--brand);background:var(--brand-bg);border-radius:999px;padding:2px 9px;flex:none}
+.lklist li[aria-selected="true"]{background:var(--brand);color:#fff}
+.lklist li[aria-selected="true"] .g{background:rgba(255,255,255,.22);color:#fff}
+:root[data-theme="dark"] .lklist li[aria-selected="true"]{color:#141B28}
+.lklist li:hover{background:var(--card-2)}
+.lklist li[aria-selected="true"]:hover{background:var(--brand)}
+.lkempty{padding:22px 14px;text-align:center;color:var(--ink-3);font-size:13px;cursor:default}
+.lkfoot{padding:9px 16px 13px;font-size:11.5px;color:var(--ink-3);border-top:1px solid var(--rule-2)}
+select.acc:focus,select.ptn:focus{box-shadow:0 0 0 3px var(--brand-bg)}
+/* ---------- AI 활동 ---------- */
+.prompt{position:relative;border:0;border-radius:4px;background:var(--card);padding:16px 16px 14px;margin:12px 0;box-shadow:var(--shadow)}
+.prompt{border:1.5px solid var(--brand-bg)}
+.prompt::before{content:"";position:absolute;top:0;left:0;width:5px;height:100%;
+  background:var(--brand);border-radius:4px 0 0 4px}
+.prompt .ptxt{font-size:13px;white-space:pre-wrap;line-height:1.85;margin:0;
+  font-family:"IBM Plex Mono","Noto Sans KR",monospace;color:var(--ink)}
+.prompt .pbar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:9px}
+.prompt .pl{font-weight:700;font-size:13px;color:var(--brand)}
+.copy{background:var(--brand-bg);border:0;color:var(--brand);border-radius:999px;padding:6px 15px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.copy:hover{background:var(--brand);color:#fff}
+:root[data-theme="dark"] .copy:hover{color:#141B28}
+.check{display:flex;gap:11px;align-items:flex-start;padding:11px 15px;margin-bottom:6px;border-radius:12px;
+  background:var(--card-2);border:0;font-size:13.5px;cursor:pointer}
+.check input{width:auto;margin:5px 0 0;flex:none;accent-color:var(--brand);transform:scale(1.15)}
+.check.on{color:var(--ink-3);text-decoration:line-through}
+.check .cat{font-size:11px;font-weight:700;color:var(--brand);background:var(--brand-bg);
+  border-radius:999px;padding:2px 9px;margin-right:8px;white-space:nowrap}
+table.rep{border-collapse:collapse;width:100%;min-width:640px;font-size:12.5px}
+table.rep th{background:var(--brand-bg);border:1px solid var(--rule);padding:7px;font-size:12px;font-weight:700}
+table.rep td{border:1px solid var(--rule);padding:3px;vertical-align:top}
+table.rep textarea{min-height:0;border:0;background:none;font-size:12.5px;padding:5px 6px;line-height:1.6}
+table.rep textarea:focus{background:var(--brand-bg)}
+table.rep select{border:0;background:none;font-size:12.5px}
+.rowdel{background:none;border:0;color:var(--ink-3);font-size:16px;line-height:1;padding:5px 8px}
+.rowdel:hover{color:var(--no)}
+.pill{display:inline-block;font-size:12px;border:0;border-radius:999px;padding:4px 13px;margin:0 6px 6px 0;
+  color:var(--ink-2);background:var(--card);box-shadow:var(--shadow)}
+.rubric td{font-size:12.5px}
+textarea{min-height:86px;resize:vertical;line-height:1.7}
+.sample{font-size:12px;color:var(--ink-3);margin-top:8px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+footer.foot{max-width:var(--w);margin:0 auto;padding:26px 16px 44px;color:var(--ink-3);font-size:12px}
+@media print{
+  header.top,nav.steps,.toolbar,.acts,.addrow{display:none!important}
+  body{background:#fff}
+  .shell{display:block;padding:0;max-width:none}
+  .q,.fs,.rc{break-inside:avoid;box-shadow:none;border:1px solid #ddd}
+  .sol{display:block!important}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="foldtab"><a class="tab home" href="./">회계 교실</a><span class="tab here">제19회 실습</span><i class="y"></i><i class="m"></i></div>
+  <div class="top-in" style="padding-top:8px">
+    <div class="brand">
+      <b>은또링쌤의 친절한 <span class="hl">회계 교실</span></b>
+      <span>제19회 전산회계운용사 3급 실기 모의문제 · New sPLUS 실습</span>
+    </div>
+    <div class="firm"><b>(주)드림패션</b> 회사코드 3119 · 회계연도 2026.1.1.~12.31.</div>
+    <div class="score"><span class="n" id="scoreN">0</span><span class="l">/ <span id="scoreT">0</span>점</span></div>
+    <button class="iconbtn" id="sizeBtn" type="button">화면 100%</button>
+    <button class="iconbtn" id="themeBtn" type="button">화면 전환</button>
+    <button class="iconbtn" id="resetBtn" type="button">초기화</button>
+  </div>
+  <div class="bar"><i id="barFill"></i></div>
+</header>
+
+<div class="shell">
+  <nav class="steps" aria-label="실습 단계">
+    <ol id="nav"></ol>
+  </nav>
+  <main id="view" tabindex="-1"></main>
+</div>
+<div class="lookup" id="lookup" hidden role="dialog" aria-modal="true" aria-labelledby="lkTitle">
+  <div class="lkbox">
+    <div class="lkhead"><b id="lkTitle">계정과목 조회</b><button type="button" id="lkClose">닫기 (Esc)</button></div>
+    <input type="text" class="lksearch" id="lkSearch" placeholder="이름이나 코드를 입력하세요" autocomplete="off">
+    <ul class="lklist" id="lkList" role="listbox"></ul>
+    <div class="lkfoot">↑ ↓ 이동 · Enter 선택 · Esc 닫기</div>
+  </div>
+</div>
+<footer class="foot">
+  수업용 실습 도구입니다. 분개·계정과목 판정은 New sPLUS(더존) 입력 기준을 따르며, 실제 프로그램 조회 결과와 비교하면서 사용하세요.
+</footer>
+
+<script>
+"use strict";
+/* =========================================================
+   0. 공통 데이터
+   ========================================================= */
+const ACCOUNTS = {
+  "자산":["현금","당좌예금","보통예금","정기예금","정기적금","당기손익-공정가치측정금융자산","외상매출금","받을어음","미수금","미수수익","부가가치세대급금","상품","소모품","선급비용","현금과부족","대손충당금","건물","차량운반구","비품","감가상각누계액(213)"],
+  "부채":["외상매입금","지급어음","미지급금","예수금","부가가치세예수금","선수금","단기차입금"],
+  "자본":["자본금"],
+  "수익":["상품매출","당기손익-공정가치측정금융자산처분이익","임대료(904)","이자수익","유형자산처분이익","잡이익"],
+  "비용":["상품매출원가","종업원급여","복리후생비","여비교통비","접대비(기업업무추진비)","통신비","세금과공과","감가상각비","대손상각비","임차료","보험료","수선비","차량유지비","운반비","소모품비","광고선전비","수수료비용(831)","유형자산처분손실","잡손실","이자비용"]
+};
+const PARTNERS = ["(주)뷰티센스","카멜레온(주)","인화스포츠(주)","119컴퓨터","개미패션","(주)장조의류","화진상사","국민카드","제일은행","신한은행","기업은행","하나은행","기업(정기적금)"];
+
+const won = n => (n===""||n===null||isNaN(n)) ? "" : Number(n).toLocaleString("ko-KR");
+const num = v => { const s=String(v==null?"":v).replace(/[^0-9.-]/g,""); return s===""?NaN:Number(s); };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* 전자세금계산서 */
+function invoice(d){
+  const items = d.items.map(it=>`<tr><td class="c">${it.m}</td><td class="c">${it.d}</td><td>${esc(it.name)}</td><td class="c">${it.spec||""}</td><td class="r">${won(it.qty)}</td><td class="r">${won(it.unit)}</td><td class="r">${won(it.supply)}</td><td class="r">${won(it.vat)}</td></tr>`).join("");
+  const party = (p,side)=>`
+    <td class="side" rowspan="5">${side}</td>
+    <td class="lab">등록번호</td><td colspan="3" class="c">${p.reg}</td>`;
+  return `<div class="scroll"><div class="inv">
+  <table>
+    <tr><td colspan="5" class="ttl">전자세금계산서</td><td colspan="2" class="c">(${d.keep})</td><td class="lab">승인번호</td><td class="c">${d.approve}</td></tr>
+  </table>
+  <table>
+    <tr>${party(d.from,"공급자")}<td class="side" rowspan="5">공급받는자</td><td class="lab">등록번호</td><td colspan="3" class="c">${d.to.reg}</td></tr>
+    <tr><td class="lab">상호</td><td class="c">${esc(d.from.name)}</td><td class="lab">성명</td><td class="c">${esc(d.from.ceo)}</td>
+        <td class="lab">상호</td><td class="c">${esc(d.to.name)}</td><td class="lab">성명</td><td class="c">${esc(d.to.ceo)}</td></tr>
+    <tr><td class="lab">사업장주소</td><td colspan="3">${esc(d.from.addr)}</td><td class="lab">사업장주소</td><td colspan="3">${esc(d.to.addr)}</td></tr>
+    <tr><td class="lab">업태</td><td colspan="3">${esc(d.from.biz)}</td><td class="lab">업태</td><td colspan="3">${esc(d.to.biz)}</td></tr>
+    <tr><td class="lab">종목</td><td colspan="3">${esc(d.from.item)} / ${esc(d.from.mail)}</td><td class="lab">종목</td><td colspan="3">${esc(d.to.item)} / ${esc(d.to.mail)}</td></tr>
+  </table>
+  <table>
+    <tr><td class="lab">작성일자</td><td class="c">${d.date}</td><td class="lab">공급가액</td><td class="r">${won(d.supply)}</td><td class="lab">세액</td><td class="r">${won(d.vat)}</td></tr>
+  </table>
+  <table>
+    <tr><th class="lab">월</th><th class="lab">일</th><th class="lab">품목명</th><th class="lab">규격</th><th class="lab">수량</th><th class="lab">단가</th><th class="lab">공급가액</th><th class="lab">세액</th></tr>
+    ${items}
+  </table>
+  <table class="pay">
+    <tr><td class="lab">합계금액</td><td class="lab">현금</td><td class="lab">수표</td><td class="lab">어음</td><td class="lab">외상미수금</td><td class="lab" rowspan="2">이 금액을</td><td class="c" rowspan="2">${d.method}</td></tr>
+    <tr><td class="r">${won(d.total)}</td><td class="r">${won((d.pay||{}).cash)}</td><td class="r">${won((d.pay||{}).check)}</td><td class="r">${won((d.pay||{}).note)}</td><td class="r">${won(d.pay?d.pay.credit:d.total)}</td></tr>
+  </table>
+  </div></div>`;
+}
+const DP_FROM = {reg:"140-81-12346",name:"(주)드림패션",ceo:"김남주",addr:"서울특별시 강남구 강남대로 438(역삼동, 스타플렉스)",biz:"도매 및 상품중개업",item:"의류",mail:"dream@bill36524.com"};
+const INV_SALE = invoice({
+  keep:"공급자 보관용", approve:"20260703XXXX0703", date:"2026.07.03.", supply:11000000, vat:1100000, total:12100000, method:"청구",
+  from:DP_FROM,
+  to:{reg:"216-81-21652",name:"(주)뷰티센스",ceo:"이경기",addr:"서울특별시 강남구 개포로 628(일원동, 현대빌딩)",biz:"도매",item:"의류",mail:"sense@naver.com"},
+  items:[{m:7,d:3,name:"블라우스",qty:100,unit:50000,supply:5000000,vat:500000},
+         {m:7,d:3,name:"청바지",qty:100,unit:30000,supply:3000000,vat:300000},
+         {m:7,d:3,name:"롱코트",qty:10,unit:300000,supply:3000000,vat:300000}]
+});
+const INV_BUY = invoice({
+  keep:"공급받는자 보관용", approve:"20260704XXXX0704", date:"2026.07.04.", supply:30000000, vat:3000000, total:33000000, method:"청구",
+  pay:{check:3000000, credit:30000000},
+  from:{reg:"112-12-58545",name:"카멜레온(주)",ceo:"이서울",addr:"서울특별시 종로구 종로 162(종로4가)",biz:"유통",item:"의류",mail:"chame@naver.com"},
+  to:DP_FROM,
+  items:[{m:7,d:4,name:"자켓",qty:185,unit:150000,supply:27750000,vat:2775000},
+         {m:7,d:4,name:"롱코트",qty:10,unit:225000,supply:2250000,vat:225000}]
+});
+const NEW_ASSET = `<div class="scroll"><table class="data">
+<tr><th>거래처명</th><th>거래처분류(구분)</th><th>거래처코드</th><th>대표자</th><th>사업자등록번호</th><th>업태/종목</th></tr>
+<tr><td>119컴퓨터</td><td>매입처(전체)</td><td>05001</td><td>최고다</td><td>104-56-12348</td><td>도소매/복합기</td></tr></table></div>
+<div class="scroll" style="margin-top:8px"><table class="data">
+<tr><th>자산코드</th><th>계정과목(자산계정)</th><th>자산명</th><th>취득수량</th><th>내용연수</th><th>상각방법</th></tr>
+<tr><td>006002</td><td>비품</td><td>컴퓨터</td><td>1대</td><td>5년</td><td>정액법</td></tr></table></div>`;
+const EXPENSE = `<div class="scroll"><div class="slip">
+<h4>지출결의서</h4><p class="to">2026년 7월 31일</p>
+<table>
+<tr><th style="width:52px">번호</th><th>적요</th><th>금액(원)</th><th>비고</th></tr>
+<tr><td style="text-align:center">1</td><td>전사원 여름휴가 선물대금</td><td class="r">800,000</td><td></td></tr>
+<tr><td style="text-align:center">2</td><td>거래처 사원 결혼축의금</td><td class="r">200,000</td><td></td></tr>
+<tr><td style="text-align:center">3</td><td>영업부 사원 시내교통비</td><td class="r">120,000</td><td></td></tr>
+<tr class="sum"><td colspan="2" style="text-align:center">합 계</td><td class="r">1,120,000</td><td></td></tr>
+</table></div></div>`;
+
+const MENUS = {
+  item:"[물류관리] ⇒ [기준정보관리] ⇒ [품목등록]",
+  fin:"[회계] ⇒ [기초정보관리] ⇒ [거래처등록] ⇒ [금융] Tab",
+  dept:"[물류관리] ⇒ [기준정보관리] ⇒ [부서/사원등록]",
+  gen:"[회계] ⇒ [기초정보관리] ⇒ [거래처등록] ⇒ [일반] Tab",
+  jnl:"[회계] ⇒ [전표입력/장부] ⇒ [일반전표입력]",
+  vat:"[회계] ⇒ [전표입력/장부] ⇒ [매입매출전표입력]",
+  out:"[물류관리] ⇒ [판매관리] ⇒ [출고입력]",
+  in_:"[물류관리] ⇒ [구매관리] ⇒ [입고입력]",
+  fund:"[자금관리(F3)] ⇒ [받을어음 관리]",
+  tb:"[회계] ⇒ [결산/재무제표Ⅰ] ⇒ [합계잔액시산표]",
+  closeIn:"[회계] ⇒ [결산/재무제표Ⅰ] ⇒ [결산자료입력]",
+  dep:"[회계] ⇒ [고정자산등록] ⇒ [원가경비별감가상각명세서]",
+  stock:"[물류관리] ⇒ [재고관리] ⇒ [재고자산수불부]",
+  stockList:"[물류관리] ⇒ [재고관리] ⇒ [재고자산명세서]",
+  cust:"[회계] ⇒ [전표입력/장부] ⇒ [거래처원장 - 잔액]",
+  acct:"[회계] ⇒ [전표입력/장부] ⇒ [계정별원장]",
+  daily:"[회계] ⇒ [전표입력/장부] ⇒ [일/월계표]",
+  bs:"[회계] ⇒ [결산/재무제표Ⅰ] ⇒ [재무상태표]",
+  kis:"[회계] ⇒ [K-IFRS 재무제표] ⇒ [K-IFRS 포괄손익계산서]",
+  kbs:"[회계] ⇒ [K-IFRS 재무제표] ⇒ [K-IFRS 재무상태표]",
+  purch:"[물류관리] ⇒ [구매관리] ⇒ [품목별구매현황]",
+  fixed:"[회계] ⇒ [고정자산등록] ⇒ [고정자산등록]"
+};
+
+const BASE = [
+ {id:"b1", t:"신규 부서를 등록하시오.", menu:MENUS.dept,
+  opts:[MENUS.dept, MENUS.gen, MENUS.item, MENUS.closeIn],
+  table:`<table class="data"><tr><th>부서코드</th><th>부서명</th><th>제조/판관</th><th>비고</th></tr>
+  <tr><td>20</td><td>무역부</td><td>판관</td><td></td></tr><tr><td>30</td><td>상품개발부</td><td>판관</td><td></td></tr></table>`,
+  tip:"제조/판관 구분이 곧 원가 귀속입니다. 판관으로 두면 판매비와관리비로 집계돼요."},
+ {id:"b2", t:"신규 거래처를 등록하시오.", menu:MENUS.gen,
+  opts:[MENUS.gen, MENUS.fin, MENUS.cust, MENUS.dept],
+  table:`<table class="data"><tr><th>거래처명</th><th>거래처분류(구분)</th><th>거래처코드</th><th>대표자</th><th>사업자등록번호</th><th>업태/종목</th></tr>
+  <tr><td>(주)장조의류</td><td>매입처(일반)</td><td>04003</td><td>이창조</td><td>106-81-14567</td><td>제조, 도소매/의류</td></tr>
+  <tr><td>화진상사</td><td>매출처(일반)</td><td>05003</td><td>임동연</td><td>120-23-33158</td><td>제조, 도소매/의류</td></tr></table>`,
+  tip:"거래처코드는 다섯 자리로 입력합니다. 매입처·매출처 구분을 잘못 고르면 거래처원장 조회 결과가 달라져요."},
+ {id:"b3", t:"신규 상품(품목)을 등록하시오.", menu:MENUS.item,
+  opts:[MENUS.item, MENUS.stock, MENUS.gen, "[물류관리] ⇒ [판매관리] ⇒ [출고입력]"],
+  table:`<table class="data"><tr><th>품목종류(자산)</th><th>품목코드</th><th>품목(품명)</th><th>(상세)규격</th><th>단위</th></tr>
+  <tr><td>상품</td><td>2002</td><td>모직코트</td><td>55</td><td>EA</td></tr></table>`,
+  tip:"[전체] Tab에서 품목정보를 입력합니다. 품목코드는 중복될 수 없어요."},
+ {id:"b4", t:"정기적금을 등록하시오.", menu:MENUS.fin,
+  opts:[MENUS.fin, MENUS.gen, MENUS.acct, MENUS.item],
+  table:`<table class="data"><tr><th>금융기관명</th><th>거래처코드</th><th>계좌개설점</th><th>예금종류명</th><th>계좌번호</th><th>계약기간</th><th>월불입액</th></tr>
+  <tr><td>기업(정기적금)</td><td>98501</td><td>기업은행</td><td>정기적금</td><td>213-04-5478</td><td>2026.7.26.~2027.7.26.</td><td>₩1,000,000</td></tr></table>`,
+  tip:"정기예금과 달리 정기적금은 <b>월불입액</b>을 함께 입력합니다. 금융 거래처 코드는 98000~99599 범위예요."}
+];
+
+const TX = [
+ {id:"t1", date:"7월 3일", t:"상품을 매출하고 전자세금계산서를 발급하다.", doc:INV_SALE,
+  slip:"vat", slipOpts:["매입매출전표입력 · 11.과세매출","매입매출전표입력 · 51.과세매입","일반전표입력","매입매출전표입력 · 12.영세매출"], slipAns:0,
+  debit:[{a:"외상매출금",p:"(주)뷰티센스",m:12100000}],
+  credit:[{a:"상품매출",m:11000000},{a:"부가가치세예수금",m:1100000}],
+  dRows:2, cRows:3,
+  path:`${MENUS.out} 에서 수금구분 <b>1.외상</b>으로 입력 → [전표추가]⇒[확인]⇒[전송] 으로 전표 자동 생성<br>${MENUS.vat} 에서 반영된 전표 확인, 전자세금란에 <b>1.전자입력</b>`,
+  tip:"세금계산서를 발급한 쪽이므로 부가가치세는 <b>예수금</b>입니다. 품목이 세 개여도 전표는 하나로 합쳐 입력합니다."},
+ {id:"t2", date:"7월 4일", t:"상품을 매입하고 전자세금계산서를 발급받다. 대금 중 부가가치세는 자기앞수표로 지급하고 나머지는 외상으로 하다.", doc:INV_BUY,
+  slip:"vat", slipOpts:["일반전표입력","매입매출전표입력 · 51.과세매입","매입매출전표입력 · 11.과세매출","매입매출전표입력 · 57.카과"], slipAns:1,
+  debit:[{a:"상품",m:30000000},{a:"부가가치세대급금",m:3000000}],
+  credit:[{a:"현금",m:3000000},{a:"외상매입금",p:"카멜레온(주)",m:30000000}],
+  dRows:3, cRows:3,
+  path:`${MENUS.in_} 에서 지급구분 <b>4.혼합</b>을 선택하고 하단의 수표(₩3,000,000)와 외상(₩30,000,000)란에 입력 → [전표추가]⇒[확인]⇒[전송]<br>${MENUS.vat} 에서 반영된 전표를 확인하고 <b>대변의 당좌예금을 현금으로 수정</b>, 전자세금란에 <b>1.전자입력</b>`,
+  tip:"<b>자기앞수표는 현금</b>입니다. 프로그램이 수표를 당좌예금으로 자동 생성하므로 반드시 고쳐야 해요. 우리 회사가 직접 발행한 당좌수표일 때만 당좌예금입니다."},
+ {id:"t3", date:"7월 5일", t:"5월 7일에 단기 시세차익 목적으로 취득한 주식 200주 중 150주를 1주당 ₩22,000에 처분하다. 처분대금은 수수료 ₩15,000원을 제외하고 현금으로 받아 즉시 보통예금(제일은행) 계좌에 예입하다.",
+  slip:"jnl", slipOpts:["일반전표입력","매입매출전표입력 · 11.과세매출","매입매출전표입력 · 51.과세매입","출고입력"], slipAns:0,
+  debit:[{a:"보통예금",p:"제일은행",m:3285000}],
+  credit:[{a:"당기손익-공정가치측정금융자산",m:3000000},{a:"당기손익-공정가치측정금융자산처분이익",m:285000}],
+  dRows:2, cRows:3,
+  path:`${MENUS.jnl} 에서 <b>5월 7일</b> 전표를 열어 취득가액(1주당 ₩20,000)을 먼저 확인 → 7월 5일로 일반전표 입력`,
+  tip:"처분가액(150주×22,000 = 3,300,000) − 장부가액(150주×20,000 = 3,000,000) − 수수료 15,000 = <b>처분이익 285,000</b>. 처분 시 수수료는 따로 비용 처리하지 않고 처분손익에서 뺍니다."},
+ {id:"t4", date:"7월 6일", t:"인화스포츠(주)로부터 상품 매출대금으로 받은 약속어음 ₩20,000,000이 금일 만기되어 기업은행에 추심을 의뢰하여 추심수수료 ₩112,000을 제외하고 당좌예금(기업은행) 계좌에 입금되었다는 통지를 받다. (어음번호: 가나10107744, 만기일: 2026년 7월 6일, 지급은행: 하나은행)",
+  slip:"jnl", slipOpts:["일반전표입력","매입매출전표입력 · 11.과세매출","매입매출전표입력 · 51.과세매입","입고입력"], slipAns:0,
+  debit:[{a:"당좌예금",p:"기업은행",m:19888000},{a:"수수료비용(831)",m:112000}],
+  credit:[{a:"받을어음",p:"인화스포츠(주)",m:20000000}],
+  dRows:3, cRows:2,
+  path:`${MENUS.jnl}<br>${MENUS.fund} ⇒ 어음상태 <b>4.만기</b>, 어음번호란 <kbd>F2</kbd> 조회 후 만기된 어음 선택`,
+  tip:"받을어음 만기 시 추심수수료는 판매비와관리비인 <b>수수료비용(831)</b>입니다. 어음 관리 보조창까지 입력해야 어음 현황이 맞아요."},
+ {id:"t5", date:"7월 8일", t:"119컴퓨터로부터 업무용 컴퓨터 1대를 ₩2,000,000에 구입하다. 대금 중 ₩1,500,000은 당사가 소지하고 있던 신한은행 발행의 자기앞수표로 지급하고, 잔액은 외상으로 하다. 단, 신규 거래처와 유형자산은 다음과 같이 등록한다.", doc:NEW_ASSET,
+  slip:"jnl", slipOpts:["일반전표입력","매입매출전표입력 · 51.과세매입","입고입력","매입매출전표입력 · 11.과세매출"], slipAns:0,
+  debit:[{a:"비품",m:2000000}],
+  credit:[{a:"현금",m:1500000},{a:"미지급금",p:"119컴퓨터",m:500000}],
+  dRows:2, cRows:3,
+  path:`${MENUS.jnl} — 거래처코드란에서 <kbd>+</kbd> 또는 00000으로 신규 거래처 등록<br>${MENUS.fixed} 에 비품 등록 — 4.신규 취득 및 증가란에 ₩2,000,000, 상각방법 1.정액법, 내용연수 5, 취득수량 1, 경비구분 0.800번대 → 20.회사계상상각비 ₩200,000 확인`,
+  tip:"자기앞수표는 <b>현금</b>, 상품이 아닌 자산을 외상으로 사면 <b>미지급금</b>입니다. 고정자산등록을 빠뜨리면 결산의 감가상각비가 맞지 않아요."},
+ {id:"t6", date:"7월 10일", t:"6월분 국민연금 ₩300,000(회사부담분 ₩150,000 포함)과 건강보험 ₩240,000(회사부담분 ₩120,000 포함)을 보통예금(신한은행) 계좌에서 납부하다.",
+  slip:"jnl", slipOpts:["일반전표입력","매입매출전표입력 · 51.과세매입","매입매출전표입력 · 11.과세매출","입고입력"], slipAns:0,
+  debit:[{a:"예수금",m:270000},{a:"세금과공과",m:150000},{a:"복리후생비",m:120000}],
+  credit:[{a:"보통예금",p:"신한은행",m:540000}],
+  dRows:3, cRows:2,
+  path:`${MENUS.jnl}`,
+  tip:"종업원 부담분(150,000 + 120,000)은 급여에서 떼어 두었던 <b>예수금</b>, 국민연금 회사부담분은 <b>세금과공과</b>, 건강보험 회사부담분은 <b>복리후생비</b>입니다."},
+ {id:"t7", date:"7월 15일", t:"다음달 초에 상품(블라우스) ₩10,000,000을 개미패션에 판매하기로 계약하고 계약금 ₩1,000,000을 보통예금(신한은행) 계좌로 송금받다.",
+  slip:"jnl", slipOpts:["일반전표입력","매입매출전표입력 · 11.과세매출","출고입력","매입매출전표입력 · 51.과세매입"], slipAns:0,
+  debit:[{a:"보통예금",p:"신한은행",m:1000000}],
+  credit:[{a:"선수금",p:"개미패션",m:1000000}],
+  dRows:2, cRows:2,
+  path:`${MENUS.jnl}`,
+  tip:"아직 상품을 넘기지 않았으므로 매출이 아니라 <b>선수금(부채)</b>입니다. 판매 계약 금액 10,000,000은 분개하지 않아요."},
+ {id:"t8", date:"7월 26일", t:"업무용 승용차 보험료 ₩1,080,000과 차량 수리비 ₩300,000을 법인카드인 국민카드로 결제하다.",
+  slip:"jnl", slipOpts:["일반전표입력","매입매출전표입력 · 57.카과","매입매출전표입력 · 51.과세매입","입고입력"], slipAns:0,
+  debit:[{a:"보험료",m:1080000},{a:"차량유지비",m:300000}],
+  credit:[{a:"미지급금",p:"국민카드",m:1380000}],
+  dRows:3, cRows:2,
+  path:`${MENUS.jnl}`,
+  tip:"카드로 결제한 대금은 나중에 카드사에 갚을 돈이므로 <b>미지급금(국민카드)</b>입니다. 차량 수리비는 <b>차량유지비</b>."},
+ {id:"t9", date:"7월 31일", t:"7월 중 발생한 관리비 지출내역은 다음과 같으며 전액 현금으로 지급하다.", doc:EXPENSE,
+  slip:"jnl", slipOpts:["일반전표입력","매입매출전표입력 · 51.과세매입","매입매출전표입력 · 11.과세매출","입고입력"], slipAns:0,
+  debit:[{a:"복리후생비",m:800000},{a:"접대비(기업업무추진비)",m:200000},{a:"여비교통비",m:120000}],
+  credit:[{a:"현금",m:1120000}],
+  dRows:3, cRows:2,
+  path:`${MENUS.jnl}`,
+  tip:"직원에게 쓴 돈은 <b>복리후생비</b>, 거래처에 쓴 경조사비는 <b>접대비(기업업무추진비)</b>, 시내교통비는 <b>여비교통비</b>입니다. 누구를 위해 썼는지가 계정을 가릅니다."}
+];
+
+const CLOSE = [
+ {id:"c1", kind:"amt", t:"매출채권 잔액에 대하여 1%의 대손충당금(보충법)을 설정하다.",
+  menu:MENUS.tb+" 에서 매출채권 잔액 조회 → "+MENUS.closeIn+" 의 [5) 대손상각]에 입력",
+  fields:[{k:"ar",label:"외상매출금 대손충당금 설정액",ans:972500},{k:"nr",label:"받을어음 대손충당금 설정액",ans:50000}],
+  calcShow:`설정액 = 매출채권 잔액 × 설정률 − 대손충당금 잔액`,
+  sol:`외상매출금 : (147,250,000 × 1%) − 500,000 = <b>972,500</b><br>받을어음 : (5,000,000 × 1%) − 0 = <b>50,000</b>`,
+  tip:"보충법은 목표 설정액에서 <b>이미 남아 있는 충당금 잔액을 뺀 만큼만</b> 추가로 쌓는 방법입니다. 잔액은 합계잔액시산표에서 반드시 확인하세요."},
+ {id:"c2", kind:"mc", t:"모든 비유동자산에 대하여 감가상각비를 계상하다.",
+  q:"당기 감가상각비를 확인하는 메뉴는?",
+  opts:[MENUS.dep, MENUS.stock, MENUS.cust, MENUS.daily], ans:0,
+  sol:`[유형자산총괄] Tab과 [무형자산총괄] Tab에서 당기상각비를 확인한 뒤 → ${MENUS.closeIn} 의 [4) 감가상각비] 해당 계정과목 금액란에 입력합니다. (예: 비품 ₩320,000)`,
+  tip:"7월 8일에 산 컴퓨터를 고정자산등록에 넣지 않았다면 비품 상각비가 틀어집니다. 금액이 예상과 다르면 등록부터 확인!"},
+ {id:"c3", kind:"amtmc", t:"기말상품재고액을 입력하고 결산 처리하라. 단, 재고평가는 선입선출법으로 한다.",
+  q:"재고자산 평가방법을 선입선출법으로 바꾸고 마감하는 메뉴는?",
+  opts:[MENUS.stock+" ⇒ [기능모음(F11)] ⇒ [평가방법]", MENUS.closeIn, MENUS.item, MENUS.bs], ans:0,
+  fields:[{k:"stock",label:"기말상품재고액",ans:90800000}],
+  sol:`평가방법을 선입선출법으로 적용 → [마감] 또는 [일괄마감] 체크 후 재고평가 → ${MENUS.stockList} 에서 상품별 재고금액 <b>₩90,800,000</b> 확인 → ${MENUS.closeIn} 의 [10) 기말상품재고액]에 입력`,
+  tip:"마감을 하지 않으면 재고금액이 계산되지 않습니다. 평가방법 → 마감 → 조회 순서를 지키세요."},
+ {id:"c4", kind:"jrn", t:"기말 현재 임대료 미수분 ₩1,500,000을 계상하다.",
+  menu:MENUS.jnl+" (12월 31일)",
+  debit:[{a:"미수수익",m:1500000}], credit:[{a:"임대료(904)",m:1500000}], dRows:2, cRows:2,
+  tip:"당기에 받을 권리는 생겼는데 돈은 아직 안 들어왔습니다. 받을 권리는 <b>미수수익(자산)</b>, 당기에 번 몫은 <b>임대료(수익)</b>로 잡습니다."},
+ {id:"c5", kind:"jrn", t:"기말 현재 현금과부족 계정 잔액의 원인을 알 수 없어 정리하다.",
+  menu:MENUS.tb+" 에서 현금과부족 잔액(₩−45,000) 확인 → "+MENUS.jnl,
+  debit:[{a:"현금과부족",m:45000}], credit:[{a:"잡이익",m:45000}], dRows:2, cRows:2,
+  calcShow:`현금과부족 잔액 −45,000 = 대변 잔액 → 실제 현금이 장부보다 45,000 많았음`,
+  tip:"잔액이 <b>음수(대변)</b>면 현금이 남은 것이므로 결산 때 <b>잡이익</b>, 양수(차변)면 모자란 것이므로 <b>잡손실</b>로 정리합니다. 부호를 먼저 읽으세요."}
+];
+
+const QUERY = [
+ {id:"q1", t:"5월에 구매한 상품 중 블라우스의 입고 금액(공급가액)은 얼마인가?", opts:[MENUS.purch,MENUS.stock,MENUS.cust,MENUS.daily], ans:0, val:7500000, unit:"원"},
+ {id:"q2", t:"10월 31일 현재 개미패션의 외상매출금 미회수액은 얼마인가?", opts:[MENUS.cust,MENUS.daily,MENUS.bs,MENUS.purch], ans:0, val:27500000, unit:"원"},
+ {id:"q3", t:"4월 ~ 6월 동안 발생한 판매비와관리비의 현금 지출 금액은 얼마인가?", opts:[MENUS.daily+" ⇒ 차변 현금",MENUS.cust,MENUS.kis,MENUS.dep], ans:0, val:5120000, unit:"원"},
+ {id:"q4", t:"6월 30일 현재 K-IFRS 재무상태표에 표시되는 유동자산의 금액은 얼마인가?", opts:[MENUS.kbs,MENUS.kis,MENUS.tb,MENUS.stockList], ans:0, val:490960500, unit:"원"},
+ {id:"q5", t:"6월 30일 현재 미결제된 지급어음의 합계는 얼마인가?", opts:[MENUS.tb+" 또는 "+MENUS.acct,MENUS.cust,MENUS.kis,MENUS.purch], ans:0, val:25000000, unit:"원"},
+ {id:"q6", t:"1월 1일부터 12월 31일까지 K-IFRS 포괄손익계산서(기능별)에 표시되는 기타수익은 얼마인가?", opts:[MENUS.kis,MENUS.kbs,MENUS.tb,MENUS.daily], ans:0, val:2190000, unit:"원"},
+ {id:"q7", t:"12월 31일 현재 K-IFRS 재무상태표에 표시되는 재고자산의 합계액은 얼마인가?", opts:[MENUS.kbs,MENUS.kis,MENUS.stockList,MENUS.cust], ans:0, val:90800000, unit:"원"}
+];
+
+/* 심화: 재무제표 분석 */
+const FS_FIELDS = [
+  {k:"ca",  g:"bs", label:"유동자산", v:424000000},
+  {k:"inv", g:"bs", label:"　그중 재고자산", v:87000000},
+  {k:"nca", g:"bs", label:"비유동자산", v:386000000},
+  {k:"cl",  g:"bs", label:"유동부채", v:268000000},
+  {k:"ncl", g:"bs", label:"비유동부채", v:92000000},
+  {k:"eq",  g:"bs", label:"자본총계", v:450000000},
+  {k:"rev", g:"is", label:"매출액", v:1240000000},
+  {k:"cogs",g:"is", label:"매출원가", v:930000000},
+  {k:"sga", g:"is", label:"판매비와관리비", v:250000000},
+  {k:"ni",  g:"is", label:"당기순이익", v:45000000},
+  {k:"ar",  g:"is", label:"매출채권(평균)", v:210000000},
+  {k:"ap",  g:"is", label:"매입채무(평균)", v:150000000}
+];
+const RATIOS = [
+  {n:"유동비율", f:"유동자산 ÷ 유동부채 × 100", u:"%", ref:200, max:300,
+   calc:d=>d.cl? d.ca/d.cl*100:NaN, band:v=>v>=200?["안정","ok"]:v>=150?["보통","warn"]:["주의","no"],
+   say:"1년 안에 갚을 빚을 1년 안에 현금이 되는 자산으로 감당할 수 있는지"},
+  {n:"당좌비율", f:"(유동자산−재고자산) ÷ 유동부채 × 100", u:"%", ref:100, max:250,
+   calc:d=>d.cl? (d.ca-d.inv)/d.cl*100:NaN, band:v=>v>=100?["안정","ok"]:v>=70?["보통","warn"]:["주의","no"],
+   say:"재고를 못 판다고 가정했을 때의 진짜 지급 능력"},
+  {n:"부채비율", f:"부채총계 ÷ 자본총계 × 100", u:"%", ref:100, max:300, lower:true,
+   calc:d=>d.eq? (d.cl+d.ncl)/d.eq*100:NaN, band:v=>v<=100?["안정","ok"]:v<=200?["보통","warn"]:["주의","no"],
+   say:"남의 돈과 내 돈의 비율 — 높을수록 이자 부담과 위험이 커짐"},
+  {n:"자기자본비율", f:"자본총계 ÷ 자산총계 × 100", u:"%", ref:50, max:100,
+   calc:d=>(d.ca+d.nca)? d.eq/(d.ca+d.nca)*100:NaN, band:v=>v>=50?["안정","ok"]:v>=30?["보통","warn"]:["주의","no"],
+   say:"전체 자산 중 갚지 않아도 되는 돈의 비중"},
+  {n:"매출총이익률", f:"(매출액−매출원가) ÷ 매출액 × 100", u:"%", ref:25, max:60,
+   calc:d=>d.rev? (d.rev-d.cogs)/d.rev*100:NaN, band:v=>v>=25?["양호","ok"]:v>=15?["보통","warn"]:["주의","no"],
+   say:"상품 자체가 남기는 마진 — 매입 단가와 판매 단가의 힘"},
+  {n:"영업이익률", f:"(매출총이익−판관비) ÷ 매출액 × 100", u:"%", ref:8, max:25,
+   calc:d=>d.rev? (d.rev-d.cogs-d.sga)/d.rev*100:NaN, band:v=>v>=8?["양호","ok"]:v>=3?["보통","warn"]:["주의","no"],
+   say:"본업으로 실제 남긴 이익 — 판관비 관리 능력이 드러남"},
+  {n:"자기자본순이익률(ROE)", f:"당기순이익 ÷ 자본총계 × 100", u:"%", ref:10, max:30,
+   calc:d=>d.eq? d.ni/d.eq*100:NaN, band:v=>v>=10?["양호","ok"]:v>=5?["보통","warn"]:["주의","no"],
+   say:"주주가 넣은 돈 대비 수익성"},
+  {n:"총자산회전율", f:"매출액 ÷ 자산총계", u:"회", ref:1.5, max:4,
+   calc:d=>(d.ca+d.nca)? d.rev/(d.ca+d.nca):NaN, band:v=>v>=1.5?["양호","ok"]:v>=1?["보통","warn"]:["주의","no"],
+   say:"가진 자산을 얼마나 바쁘게 굴려 매출을 만들었는지"},
+  {n:"매출채권회수기간", f:"365 ÷ (매출액 ÷ 매출채권)", u:"일", ref:40, max:150, lower:true,
+   calc:d=>d.rev? 365/(d.rev/d.ar):NaN, band:v=>v<=40?["양호","ok"]:v<=70?["보통","warn"]:["주의","no"],
+   say:"외상으로 판 돈이 현금으로 돌아오기까지 걸리는 시간"},
+  {n:"재고자산회전율", f:"매출원가 ÷ 재고자산", u:"회", ref:8, max:20,
+   calc:d=>d.inv? d.cogs/d.inv:NaN, band:v=>v>=8?["양호","ok"]:v>=4?["보통","warn"]:["주의","no"],
+   say:"재고가 1년에 몇 번 팔려 나갔는지 — 낮으면 악성재고 의심"}
+];
+const ESSAYS = [
+ {id:"e1", q:"유동비율은 158%인데 당좌비율은 126%로 떨어집니다. 두 비율의 차이를 만든 항목은 무엇이고, 그 차이가 클수록 무엇을 걱정해야 할까요?",
+  model:"두 비율의 차이는 <b>재고자산</b> 때문입니다. 당좌비율은 재고자산을 뺀 자산으로만 계산하므로, 차이가 클수록 유동자산이 재고에 묶여 있다는 뜻입니다. 재고는 팔려야 현금이 되고 팔리지 않으면 평가손실까지 생기므로, 차이가 큰 회사는 장부상 유동비율이 높아도 당장 빚을 갚을 현금이 부족할 수 있습니다."},
+ {id:"e2", q:"매출총이익률은 25.0%인데 영업이익률은 4.8%까지 낮아졌습니다. 이 회사에 어떤 문제가 있다고 볼 수 있으며, 어떤 계정을 먼저 들여다봐야 할까요?",
+  model:"상품 자체의 마진(25.0%)은 확보했지만 판매비와관리비가 매출의 약 20%를 먹고 있어 본업 이익이 크게 줄었습니다. 즉 <b>매입·판매의 문제가 아니라 비용 관리의 문제</b>입니다. 종업원급여, 광고선전비, 임차료, 통신비, 차량유지비처럼 금액이 큰 판관비 계정을 계정별원장과 일/월계표로 추적해 어느 달에 왜 늘었는지 확인해야 합니다."},
+ {id:"e3", q:"매출채권 회수기간이 62일로 업계 평균(40일)보다 22일 깁니다. 회사에 생길 수 있는 문제 두 가지와 개선 방안 두 가지를 쓰세요.",
+  model:"문제 : ① 판매는 이익으로 잡히지만 현금이 들어오지 않아 매입대금·급여 지급에 쓸 자금이 부족해집니다(흑자도산 위험). ② 회수가 늦어질수록 회수 불능 가능성이 커져 대손상각비가 늘고 이익이 줄어듭니다.<br>개선 : ① 거래처원장으로 연체 거래처를 선별해 신용한도와 결제조건(예: 30일)을 다시 정합니다. ② 조기 결제 할인 제공, 어음 대신 계좌이체 유도, 일정 금액 초과 시 선수금 요구 등으로 회수 구조를 바꿉니다."},
+ {id:"e4", q:"여러분이 이 회사에 자금을 빌려줄 은행 담당자라면 위 비율 중 무엇을 가장 먼저 보겠습니까? 고른 이유와, 그 비율만으로는 알 수 없는 점을 함께 쓰세요.",
+  model:"정답이 하나인 문제는 아닙니다. 예시 : 은행은 원리금 회수가 목적이므로 <b>당좌비율과 부채비율</b>을 먼저 봅니다. 당좌비율은 단기 상환 능력을, 부채비율은 이미 지고 있는 빚의 무게를 보여주기 때문입니다. 다만 비율은 특정 시점·기간의 결과일 뿐이어서 ① 계절적 변동이나 기말 조작 가능성, ② 실제 현금흐름(현금흐름표), ③ 매출처 편중·업종 평균과의 차이 등은 알 수 없으므로 여러 기간과 동종업계 비교가 함께 필요합니다."}
+];
+
+const STEPS = [
+  {id:"s0", k:"안내", label:"실습 안내"},
+  {id:"s1", k:"1", label:"기준정보 입력"},
+  {id:"s2", k:"2", label:"거래 입력"},
+  {id:"s3", k:"3", label:"결산 정리"},
+  {id:"s4", k:"4", label:"조회·단답형"},
+  {id:"s5", k:"심화", label:"재무제표 분석"},
+  {id:"s6", k:"심화+", label:"IT 기업 읽기"},
+  {id:"s7", k:"AI", label:"AI 감사팀"},
+  {id:"s8", k:"검증", label:"실제 기업 검증"}
+];
+
+/* =========================================================
+   2. 상태
+   ========================================================= */
+const KEY = "splus19_v1";
+let state = {step:"s0", res:{}, inputs:{}, fs:{}, essay:{}, theme:null};
+try{ const raw=localStorage.getItem(KEY); if(raw) state=Object.assign(state,JSON.parse(raw)); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+if(state.theme) document.documentElement.setAttribute("data-theme", state.theme);
+
+const TOTAL = BASE.length + TX.length*2 + CLOSE.length + QUERY.length*2;
+function scored(){ return Object.values(state.res).filter(v=>v==="ok").length; }
+function refreshScore(){
+  document.getElementById("scoreN").textContent = scored();
+  document.getElementById("scoreT").textContent = TOTAL;
+  document.getElementById("barFill").style.width = Math.min(100, scored()/TOTAL*100) + "%";
+  document.querySelectorAll("nav.steps .tick").forEach(el=>{
+    const p = el.dataset.prefix;
+    const n = Object.keys(state.res).filter(k=>k.startsWith(p) && state.res[k]==="ok").length;
+    el.textContent = n ? n : "";
+  });
+}
+
+/* =========================================================
+   3. 부품
+   ========================================================= */
+function accSelect(cls){
+  let o = `<option value="">계정과목</option>`;
+  for(const g in ACCOUNTS){ o += `<optgroup label="${g}">` + ACCOUNTS[g].map(a=>`<option>${a}</option>`).join("") + `</optgroup>`; }
+  return `<select class="${cls}">${o}</select>`;
+}
+function ptnSelect(cls){
+  return `<select class="${cls}"><option value="">거래처</option>${PARTNERS.map(p=>`<option>${p}</option>`).join("")}</select>`;
+}
+function jrnBlock(key, dRows, cRows){
+  const row = () => `<div class="row">${accSelect("acc")}${ptnSelect("ptn")}<input type="text" class="amt" inputmode="numeric" placeholder="금액"></div>`;
+  return `<div class="jrn" data-jrn="${key}">
+    <div class="jhead"><div class="d">차변</div><div class="c">대변</div></div>
+    <div class="jgrid">
+      <div class="jside d"><div class="rows">${Array(dRows).fill(0).map(row).join("")}</div>
+        <button type="button" class="addrow" data-add="d">행 추가</button>
+        <div class="sumline dbl"><span>차변 합계</span><b class="tot" data-side="d">0</b></div></div>
+      <div class="jside c"><div class="rows">${Array(cRows).fill(0).map(row).join("")}</div>
+        <button type="button" class="addrow" data-add="c">행 추가</button>
+        <div class="sumline dbl"><span>대변 합계</span><b class="tot" data-side="c">0</b></div></div>
+    </div></div>`;
+}
+function solutionJE(debit, credit){
+  const line = r => `<p><span>${r.a}${r.p?`(${r.p})`:""}</span><span>${won(r.m)}</span></p>`;
+  return `<div class="je"><div class="d"><div class="lbl">차변</div>${debit.map(line).join("")}</div>
+  <div class="c"><div class="lbl">대변</div>${credit.map(line).join("")}</div></div>`;
+}
+function readJrn(box){
+  box.querySelectorAll(".row").forEach(r=>r.classList.remove("ok","bad"));
+  const out = {d:[], c:[]};
+  box.querySelectorAll(".jside").forEach(side=>{
+    const k = side.classList.contains("d") ? "d":"c";
+    side.querySelectorAll(".row").forEach(r=>{
+      const a=r.querySelector(".acc").value, p=r.querySelector(".ptn").value, m=num(r.querySelector(".amt").value);
+      if(a || !isNaN(m)) out[k].push({a,p,m:isNaN(m)?null:m, el:r});
+    });
+  });
+  return out;
+}
+function gradeSide(user, ans){
+  const left = ans.map(a=>Object.assign({},a,{used:false}));
+  let allOk = true;
+  user.forEach(u=>{
+    const hit = left.find(a=>!a.used && a.a===u.a && a.m===u.m && (a.p ? a.p===u.p : true));
+    if(hit){ hit.used=true; u.el.classList.add("ok"); u.el.classList.remove("bad"); }
+    else { u.el.classList.add("bad"); u.el.classList.remove("ok"); allOk=false; }
+  });
+  if(left.some(a=>!a.used)) allOk=false;
+  return allOk;
+}
+function mcBlock(key, opts){
+  return `<div class="opts" data-mc="${key}">` + opts.map((o,i)=>
+    `<label class="opt"><input type="radio" name="mc_${key}" value="${i}"><span class="path" style="border:0;background:none;padding:0">${o}</span></label>`
+  ).join("") + `</div>`;
+}
+function qCard(tag, title, body, id){
+  return `<section class="q" id="card_${id}">
+    <header><span class="tag">${tag}</span><div class="qt">${title}</div></header>
+    <div class="body">${body}</div></section>`;
+}
+function actions(key, extra){
+  return `<div class="acts" data-acts="${key}">
+    <button type="button" class="btn" data-check>채점</button>
+    <button type="button" class="btn ghost" data-sol>풀이 보기</button>
+    ${extra||""}<span class="verdict" hidden></span></div>`;
+}
+
+/* =========================================================
+   4. 화면
+   ========================================================= */
+function viewIntro(){
+  return `<div class="lede hero"><p class="eyebrow">전산회계운용사 3급 · 제19회 실기 모의문제</p>
+  <h2>(주)드림패션의 <span class="hl">7월 거래</span>를<br>끝까지 처리해 봅니다</h2>
+  <p>New sPLUS에 입력하고, 이 화면에서 분개와 조회 결과를 스스로 확인하세요.<br>마지막에는 완성된 재무제표를 읽고 회사의 상태를 판단합니다.</p></div>
+  ${qCard("준비","실습 데이터 불러오기",`
+    <ol style="margin:0;padding-left:20px;font-size:13.5px">
+      <li>LG U+ 웹하드(www.webhard.co.kr) 접속 → 나눔클래스 ID <kbd>class1234</kbd> / PW <kbd>1234</kbd></li>
+      <li>[GUEST 폴더] → [2026년 데이터 및 자료] → [전산회계운용사 3급]에서 데이터 파일 실행</li>
+      <li>[NEW sPLUS 실무교육 프로그램]에서 회사코드 <b>제19회 – (주)드림패션</b>으로 로그인</li>
+    </ol>
+    <div class="hint"><b>입력 원칙</b> · 채권·채무 및 금융 거래는 반드시 거래처 코드를 입력하고, 각 문항별로 <b>전표번호 한 개</b>로 묶어 입력합니다.<br>
+     금액 칸에서는 프로그램과 똑같이 <kbd>+</kbd> 키를 누르면 <b>0이 세 개</b> 붙습니다. 4를 치고 <kbd>+</kbd>를 두 번 누르면 4,000,000.<br>
+     계정과목·거래처 칸에서 <kbd>F2</kbd>를 누르면 <b>조회창</b>이 열립니다. 이름을 입력해 찾고 Enter로 선택하세요.</div>`,"intro")}
+  ${qCard("평가","이 실습에서 확인하는 것",`
+    <table class="data"><tr><th>단계</th><th>하는 일</th><th>배점</th></tr>
+    <tr><td class="l">1. 기준정보 입력</td><td class="l">품목·금융거래처·부서·일반거래처 등록 위치 찾기</td><td>${BASE.length}</td></tr>
+    <tr><td class="l">2. 거래 입력</td><td class="l">전표 종류 판단 + 분개 작성 (9건 × 2)</td><td>${TX.length*2}</td></tr>
+    <tr><td class="l">3. 결산 정리</td><td class="l">대손·감가상각·재고·선급·소모품</td><td>${CLOSE.length}</td></tr>
+    <tr><td class="l">4. 조회·단답형</td><td class="l">조회 메뉴 선택 + 금액 확인 (7문항 × 2)</td><td>${QUERY.length*2}</td></tr>
+    <tr><td class="l">심화. 재무제표 분석</td><td class="l">비율 계산과 해석 — 점수 대신 서술로 평가</td><td>–</td></tr></table>
+    <p class="note">채점 결과와 작성한 답은 이 기기에 저장되어 다음 시간에 이어서 할 수 있습니다.</p>`,"plan")}`;
+}
+
+function viewBase(){
+  return `<div class="lede"><h2>기준정보 입력</h2><p>전표를 치기 전에 품목·거래처·부서가 먼저 등록돼 있어야 합니다. 각 자료를 어느 메뉴에 넣는지 고르고, 실제 프로그램에도 그대로 입력하세요.</p></div>` +
+  BASE.map((b,i)=>qCard(`1-(${i+1})`, b.t,
+    `<div class="scroll">${b.table}</div>${mcBlock(b.id, b.opts)}
+     ${actions(b.id)}
+     <div class="sol" hidden><h4>입력 위치</h4><div class="path">${b.menu}</div><p class="note">${b.tip}</p></div>`, b.id)).join("");
+}
+
+function viewTx(){
+  return `<div class="lede"><h2>거래 입력</h2><p>자료를 읽고 ① 어떤 전표로 입력할지 고른 뒤 ② 분개를 작성합니다. 채권·채무·금융 계정은 거래처까지 골라야 정답으로 인정됩니다.</p></div>` +
+  TX.map((t,i)=>qCard(t.date, t.t,
+    `${t.doc||""}
+     <p class="note" style="margin-top:14px;font-weight:600;color:var(--ink)">① 어떤 전표로 입력할까요?</p>
+     ${mcBlock(t.id+"_s", t.slipOpts)}
+     <p class="note" style="margin-top:14px;font-weight:600;color:var(--ink)">② 분개를 작성하세요. <span style="font-weight:400;color:var(--ink-3)">계정과목·거래처 칸에서 <kbd>F2</kbd> 조회, 금액 칸에서 <kbd>+</kbd> 는 000</span></p>
+     ${jrnBlock(t.id+"_j", t.dRows, t.cRows)}
+     ${actions(t.id)}
+     <div class="sol" hidden><h4>풀이</h4><div class="path" style="white-space:normal">${t.path}</div>
+       ${solutionJE(t.debit, t.credit)}
+       <p class="note">${t.tip}</p></div>`, t.id)).join("");
+}
+
+function viewClose(){
+  return `<div class="lede"><h2>결산 정리 · 12월 31일</h2><p>결산자료입력에서 (1)·(2)·(3) 항목은 금액 입력 후 반드시 <kbd>전표추가(F3)</kbd>를 눌러 일반전표에 결산분개를 생성시켜야 합니다.</p></div>` +
+  CLOSE.map((c,i)=>{
+    let body = "";
+    if(c.calcShow) body += `<div class="calc">${c.calcShow}</div>`;
+    if(c.kind==="mc" || c.kind==="amtmc") body += `<p class="note" style="font-weight:600;color:var(--ink)">${c.q}</p>` + mcBlock(c.id+"_m", c.opts);
+    if(c.fields) body += c.fields.map(f=>`<div class="fieldline"><label for="f_${c.id}_${f.k}">${f.label}</label>
+      <input id="f_${c.id}_${f.k}" class="amt fld" data-fk="${c.id}_${f.k}" type="text" inputmode="numeric" placeholder="0"><span class="u">원</span></div>`).join("");
+    if(c.kind==="jrn") body += jrnBlock(c.id+"_j", c.dRows, c.cRows);
+    body += actions(c.id);
+    body += `<div class="sol" hidden><h4>풀이</h4>${c.menu?`<div class="path" style="white-space:normal">${c.menu}</div>`:""}
+      ${c.sol?`<p style="margin:9px 0 0">${c.sol}</p>`:""}
+      ${c.kind==="jrn"?solutionJE(c.debit,c.credit):""}
+      <p class="note">${c.tip}</p></div>`;
+    return qCard(`3-(${i+1})`, c.t, body, c.id);
+  }).join("");
+}
+
+function viewQuery(){
+  return `<div class="lede"><h2>조회 · 단답형</h2><p>결산까지 끝낸 상태에서 조회합니다. 어느 메뉴에서 찾는지 고르고, 금액을 숫자로 입력하세요.</p></div>` +
+  QUERY.map((q,i)=>qCard(`4-(${i+1})`, q.t,
+    `${mcBlock(q.id+"_m", q.opts)}
+     <div class="fieldline"><label for="f_${q.id}">답</label>
+       <input id="f_${q.id}" class="amt fld" data-fk="${q.id}_v" type="text" inputmode="numeric" placeholder="0"><span class="u">${q.unit}</span></div>
+     ${actions(q.id)}
+     <div class="sol" hidden><h4>풀이</h4><div class="path" style="white-space:normal">${q.opts[q.ans]}</div>
+       <p style="margin:9px 0 0">답 : <b>${q.unit==="EA"?q.val+"EA":"₩"+won(q.val)}</b></p>
+       ${q.extra?`<p class="note">${q.extra}</p>`:""}</div>`, q.id)).join("");
+}
+
+function viewFS(){
+  const g = k => FS_FIELDS.filter(f=>f.g===k).map(f=>
+    `<div class="fsrow"><span>${f.label}</span><input class="amt fs-in" data-fs="${f.k}" type="text" inputmode="numeric"></div>`).join("");
+  return `<div class="lede"><h2>재무제표 분석</h2>
+  <p>결산을 마치면 숫자가 아니라 <b>회사의 상태</b>가 보여야 합니다. 프로그램에서 조회한 K-IFRS 재무상태표·포괄손익계산서 금액을 옮겨 적으면 비율이 자동으로 계산됩니다.</p></div>
+  <div class="toolbar">
+    <button class="btn ghost" id="fsSample" type="button">예시 회사 숫자 불러오기</button>
+    <button class="btn ghost" id="fsClear" type="button">입력 지우기</button>
+    <button class="btn ghost" id="printBtn" type="button">인쇄 · PDF</button>
+  </div>
+  <div class="grid2">
+    <div class="fs"><h3>재무상태표 요약</h3><p class="sub">12월 31일 현재 · 단위 원</p>${g("bs")}
+      <div class="fsrow total calc-row"><span>자산총계</span><span class="v" id="o_ta">–</span></div>
+      <div class="fsrow calc-row"><span>부채총계</span><span class="v" id="o_tl">–</span></div>
+      <div class="fsrow calc-row"><span>부채와 자본 합계</span><span class="v" id="o_le">–</span></div>
+      <div id="balMsg"></div></div>
+    <div class="fs"><h3>포괄손익계산서 요약</h3><p class="sub">1월 1일~12월 31일 · 단위 원</p>${g("is")}
+      <div class="fsrow total calc-row"><span>매출총이익</span><span class="v" id="o_gp">–</span></div>
+      <div class="fsrow calc-row"><span>영업이익</span><span class="v" id="o_op">–</span></div></div>
+  </div>
+  <h3 style="margin:26px 0 4px;font-size:17px">비율로 읽기</h3>
+  <p class="note" style="margin:0 0 12px">막대의 세로선은 참고 기준선입니다. 업종·규모에 따라 적정 수준이 달라지므로 판정은 <b>토론의 출발점</b>으로만 쓰세요.</p>
+  <div class="ratios" id="ratioBox"></div>
+
+  <h3 style="margin:28px 0 4px;font-size:17px">ROE를 세 조각으로 나누기 · 듀폰 분석</h3>
+  <p class="note" style="margin:0 0 12px">같은 ROE 10%라도 <b>비싸게 팔아서</b> 낸 것인지, <b>많이 팔아서</b>인지, <b>빚을 써서</b>인지는 전혀 다른 이야기입니다. ROE를 세 개의 힘으로 분해해 보세요.</p>
+  <div class="dupont" id="dupontBox"></div>
+  <p class="note" id="dupontMsg"></p>
+
+  <h3 style="margin:28px 0 4px;font-size:17px">현금이 한 바퀴 도는 데 걸리는 시간 · 현금전환주기</h3>
+  <p class="note" style="margin:0 0 12px">이익은 손익계산서에, 생존은 현금 흐름에 달려 있습니다. 상품을 사서 팔고 그 돈을 받기까지 며칠이 걸리는지, 그동안 얼마의 자금을 끌어와야 하는지 계산합니다.</p>
+  <div class="fs ccc" id="cccBox"></div>
+
+  <h3 style="margin:28px 0 4px;font-size:17px">숫자 뒤의 이야기</h3>
+  <p class="note" style="margin:0 0 12px">아래 질문은 정답을 맞히는 문제가 아닙니다. 계산한 비율을 근거로 삼아 자기 문장으로 쓰고, 모범답안과 비교해 보세요.</p>
+  ${ESSAYS.map((e,i)=>qCard(`해석 ${i+1}`, e.q,
+    `<textarea data-essay="${e.id}" placeholder="비율 수치를 근거로 들어 3~5문장으로 써 보세요."></textarea>
+     <div class="acts"><button type="button" class="btn ghost" data-sol>모범답안 보기</button></div>
+     <div class="sol" hidden><h4>이렇게 쓸 수 있어요</h4><p style="margin:0">${e.model}</p></div>`, e.id)).join("")}
+  ${qCard("확장","더 해 볼 활동",
+    `<ul style="margin:0;padding-left:20px;font-size:13.5px">
+      <li><b>기간 비교</b> — 전기 재무제표 금액을 넣어 같은 비율을 계산하고, 좋아진 항목과 나빠진 항목을 각각 두 개씩 찾기</li>
+      <li><b>회사 비교</b> — 금융감독원 전자공시(DART)에서 관심 있는 상장사의 재무제표를 찾아 같은 표에 넣고 우리 회사와 비교하기</li>
+      <li><b>의사결정</b> — 모둠별로 은행 담당자 / 투자자 / 취업 준비생 역할을 맡아, 같은 재무제표를 보고 서로 다른 결론을 발표하기</li>
+      <li><b>거꾸로 만들기</b> — 유동비율 300%·영업이익률 1%가 나오도록 재무상태표를 직접 설계해 보고, 그런 회사가 실제로 어떤 모습일지 설명하기</li>
+    </ul>`,"more")}`;
+}
+
+/* =========================================================
+   5. 렌더 & 이벤트
+   ========================================================= */
+const view = document.getElementById("view");
+function render(){
+  const s = state.step;
+  view.innerHTML = s==="s0"?viewIntro(): s==="s1"?viewBase(): s==="s2"?viewTx(): s==="s3"?viewClose(): s==="s4"?viewQuery(): s==="s5"?viewFS(): s==="s6"?viewIT(): s==="s7"?viewAudit(): viewDart();
+  restore();
+  if(s==="s5") initFS();
+  if(s==="s6") initIT();
+  if(s==="s7"||s==="s8") initForms();
+  view.dataset.step = s;
+  const lede=view.querySelector(".lede");
+  if(lede){ const i=STEPS.findIndex(x=>x.id===s); const t=document.createElement("span");
+    t.className="chtape"; t.textContent = i<=0 ? "Intro" : "Chapter "+i; lede.insertBefore(t, lede.firstChild); }
+  document.querySelectorAll("nav.steps button").forEach(b=>b.setAttribute("aria-current", b.dataset.step===s ? "true":"false"));
+  refreshScore();
+  window.scrollTo({top:0,behavior:"auto"});
+  save();
+}
+function buildNav(){
+  document.getElementById("nav").innerHTML = STEPS.map(s=>{
+    const prefix = s.id==="s1"?"b": s.id==="s2"?"t": s.id==="s3"?"c": s.id==="s4"?"q":"";
+    return `<li><button type="button" data-step="${s.id}"><span class="k">${s.k}</span><span>${s.label}</span>${prefix?`<span class="tick" data-prefix="${prefix}"></span>`:""}</button></li>`;
+  }).join("");
+  document.getElementById("nav").addEventListener("click", e=>{
+    const b=e.target.closest("button[data-step]"); if(!b) return;
+    state.step=b.dataset.step; render(); view.focus();
+  });
+}
+
+/* 저장된 입력 복원 */
+function restore(){
+  view.querySelectorAll("[data-mc]").forEach(box=>{
+    const v = state.inputs[box.dataset.mc];
+    if(v!=null){ const r=box.querySelector(`input[value="${v}"]`); if(r) r.checked=true; }
+  });
+  view.querySelectorAll(".fld").forEach(inp=>{
+    const v = state.inputs[inp.dataset.fk]; if(v!=null) inp.value=won(v);
+  });
+  view.querySelectorAll("[data-jrn]").forEach(box=>{
+    const saved = state.inputs[box.dataset.jrn]; if(!saved) return;
+    ["d","c"].forEach(k=>{
+      const side = box.querySelector(".jside."+k);
+      (saved[k]||[]).forEach((r,i)=>{
+        let rows = side.querySelectorAll(".row");
+        while(rows.length<=i){ addRow(side); rows = side.querySelectorAll(".row"); }
+        rows[i].querySelector(".acc").value=r.a||"";
+        rows[i].querySelector(".ptn").value=r.p||"";
+        rows[i].querySelector(".amt").value=r.m==null?"":won(r.m);
+      });
+    });
+    updateTotals(box);
+  });
+  view.querySelectorAll("[data-essay]").forEach(t=>{ const v=state.essay[t.dataset.essay]; if(v) t.value=v; });
+  view.querySelectorAll("[data-acts]").forEach(a=>{
+    const k = a.dataset.acts;
+    const subs = Object.keys(state.res).filter(x=>x===k||x.indexOf(k+"_")===0);
+    if(!subs.length) return;
+    const r = subs.every(x=>state.res[x]==="ok") ? "ok" : "no";
+    const v=a.querySelector(".verdict"); v.hidden=false;
+    v.className="verdict "+(r==="ok"?"ok":"bad"); v.textContent=r==="ok"?"정답":"다시 확인";
+  });
+}
+function addRow(side){
+  const rows = side.querySelector(".rows");
+  const d = document.createElement("div"); d.className="row";
+  d.innerHTML = accSelect("acc")+ptnSelect("ptn")+`<input type="text" class="amt" inputmode="numeric" placeholder="금액">`;
+  rows.appendChild(d); return d;
+}
+function updateTotals(box){
+  ["d","c"].forEach(k=>{
+    const side=box.querySelector(".jside."+k);
+    let t=0; side.querySelectorAll(".amt").forEach(i=>{const n=num(i.value); if(!isNaN(n)) t+=n;});
+    side.querySelector(".tot").textContent = won(t);
+  });
+}
+function storeJrn(box){
+  const out={d:[],c:[]};
+  box.querySelectorAll(".jside").forEach(side=>{
+    const k=side.classList.contains("d")?"d":"c";
+    side.querySelectorAll(".row").forEach(r=>{
+      out[k].push({a:r.querySelector(".acc").value,p:r.querySelector(".ptn").value,m:isNaN(num(r.querySelector(".amt").value))?null:num(r.querySelector(".amt").value)});
+    });
+  });
+  state.inputs[box.dataset.jrn]=out; save();
+}
+
+view.addEventListener("click", e=>{
+  const add = e.target.closest(".addrow");
+  if(add && add.closest("[data-jrn]")){ const side=add.closest(".jside"); addRow(side); storeJrn(add.closest("[data-jrn]")); return; }
+  const solBtn = e.target.closest("[data-sol]");
+  if(solBtn){ const card=solBtn.closest(".q"); const sol=card.querySelector(".sol");
+    sol.hidden=!sol.hidden; solBtn.textContent = sol.hidden ? (card.querySelector("[data-essay]")?"모범답안 보기":"풀이 보기") : "접기"; return; }
+  const chk = e.target.closest("[data-check]");
+  if(chk){ check(chk.closest("[data-acts]").dataset.acts, chk.closest(".q")); return; }
+});
+view.addEventListener("input", e=>{
+  const t=e.target;
+  if(t.classList.contains("amt") && t.closest("[data-jrn]")){ updateTotals(t.closest("[data-jrn]")); }
+  if(t.classList.contains("fld")){ state.inputs[t.dataset.fk]=isNaN(num(t.value))?null:num(t.value); save(); }
+  if(t.dataset.essay!=null){ state.essay[t.dataset.essay]=t.value; save(); }
+  if(t.classList.contains("fs-in")){ state.fs[t.dataset.fs]=isNaN(num(t.value))?null:num(t.value); computeFS(); save(); }
+});
+view.addEventListener("change", e=>{
+  const t=e.target;
+  if(t.type==="radio"){ const box=t.closest("[data-mc]"); state.inputs[box.dataset.mc]=Number(t.value); save(); }
+  if(t.closest("[data-jrn]")) storeJrn(t.closest("[data-jrn]"));
+});
+/* 금액 칸에서 + 키 = 0 세 개 (sPLUS와 동일) */
+view.addEventListener("keydown", e=>{
+  const t=e.target;
+  if(!t || t.tagName!=="INPUT" || !t.classList || !t.classList.contains("amt")) return;
+  if(e.key!=="+" && e.key!=="Add") return;
+  e.preventDefault();
+  const n=num(t.value);
+  if(isNaN(n)) return;
+  t.value = won(n*1000);
+  t.dispatchEvent(new Event("input",{bubbles:true}));
+  t.dispatchEvent(new Event("change",{bubbles:true}));
+});
+view.addEventListener("blur", e=>{
+  const t=e.target;
+  if(t.classList && t.classList.contains("amt")){ const n=num(t.value); t.value = isNaN(n)?"":won(n);
+    if(t.closest("[data-jrn]")) storeJrn(t.closest("[data-jrn]")); }
+  if(t.classList && t.classList.contains("fs-in")){ const n=num(t.value); t.value=isNaN(n)?"":won(n); }
+}, true);
+
+/* 채점 */
+function markMC(box, ansIdx){
+  let ok=false;
+  box.querySelectorAll(".opt").forEach((l,i)=>{
+    l.classList.remove("ok","bad");
+    const r=l.querySelector("input");
+    if(r.checked){ if(i===ansIdx){l.classList.add("ok");ok=true;} else l.classList.add("bad"); }
+  });
+  return ok;
+}
+function verdict(card, key, ok, msg){
+  const acts=card.querySelector("[data-acts]"); const v=acts.querySelector(".verdict");
+  v.hidden=false; v.className="verdict "+(ok?"ok":"bad"); v.textContent = msg || (ok?"정답":"다시 확인");
+  state.res[key]= ok?"ok":"no"; save(); refreshScore();
+  if(!ok){ const sol=card.querySelector(".sol"); if(sol && sol.hidden){ /* 오답이어도 바로 공개하지 않음 */ } }
+}
+function check(key, card){
+  const b = BASE.find(x=>x.id===key);
+  if(b){ verdict(card, key, markMC(card.querySelector("[data-mc]"), b.opts.indexOf(b.menu))); return; }
+  const t = TX.find(x=>x.id===key);
+  if(t){
+    const okSlip = markMC(card.querySelector(`[data-mc="${t.id}_s"]`), t.slipAns);
+    const box = card.querySelector(`[data-jrn="${t.id}_j"]`);
+    const u = readJrn(box);
+    const okJ = gradeSide(u.d, t.debit) && gradeSide(u.c, t.credit);
+    state.res[key+"_s"]= okSlip?"ok":"no"; state.res[key+"_j"]= okJ?"ok":"no";
+    const v=card.querySelector(".verdict"); v.hidden=false;
+    const both = okSlip&&okJ;
+    v.className="verdict "+(both?"ok":"bad");
+    v.textContent = both? "정답" : (okJ? "분개는 맞고 전표 선택이 틀렸어요" : okSlip? "전표는 맞고 분개를 다시 보세요" : "다시 확인");
+    save(); refreshScore(); return;
+  }
+  const c = CLOSE.find(x=>x.id===key);
+  if(c){
+    let ok = true;
+    if(c.kind==="mc"||c.kind==="amtmc") ok = markMC(card.querySelector(`[data-mc="${c.id}_m"]`), c.ans) && ok;
+    if(c.fields) c.fields.forEach(f=>{
+      const inp = card.querySelector(`[data-fk="${c.id}_${f.k}"]`);
+      const good = num(inp.value)===f.ans;
+      inp.style.borderColor = good? "var(--ok)":"var(--no)";
+      inp.style.background = good? "var(--ok-bg)":"var(--no-bg)";
+      ok = good && ok;
+    });
+    if(c.kind==="jrn"){ const box=card.querySelector(`[data-jrn="${c.id}_j"]`); const u=readJrn(box);
+      ok = gradeSide(u.d,c.debit) && gradeSide(u.c,c.credit) && ok; }
+    verdict(card, key, ok); return;
+  }
+  const q = QUERY.find(x=>x.id===key);
+  if(q){
+    const okM = markMC(card.querySelector(`[data-mc="${q.id}_m"]`), q.ans);
+    const inp = card.querySelector(`[data-fk="${q.id}_v"]`);
+    const okV = num(inp.value)===q.val;
+    inp.style.borderColor = okV? "var(--ok)":"var(--no)";
+    inp.style.background = okV? "var(--ok-bg)":"var(--no-bg)";
+    state.res[key+"_m"]=okM?"ok":"no"; state.res[key+"_v"]=okV?"ok":"no";
+    const v=card.querySelector(".verdict"); v.hidden=false;
+    v.className="verdict "+((okM&&okV)?"ok":"bad");
+    v.textContent = (okM&&okV)?"정답":(okV?"금액은 맞아요. 조회 메뉴를 다시 보세요":okM?"메뉴는 맞아요. 금액을 다시 확인하세요":"다시 확인");
+    save(); refreshScore(); return;
+  }
+}
+
+/* 심화 계산 */
+function initFS(){
+  view.querySelectorAll(".fs-in").forEach(i=>{ const v=state.fs[i.dataset.fs]; if(v!=null) i.value=won(v); });
+  document.getElementById("fsSample").onclick = ()=>{
+    FS_FIELDS.forEach(f=>{ state.fs[f.k]=f.v; const el=view.querySelector(`[data-fs="${f.k}"]`); if(el) el.value=won(f.v); });
+    computeFS(); save();
+  };
+  document.getElementById("fsClear").onclick = ()=>{
+    FS_FIELDS.forEach(f=>{ state.fs[f.k]=null; const el=view.querySelector(`[data-fs="${f.k}"]`); if(el) el.value=""; });
+    computeFS(); save();
+  };
+  document.getElementById("printBtn").onclick = ()=>window.print();
+  computeFS();
+}
+function computeFS(){
+  const d={}; let any=false;
+  FS_FIELDS.forEach(f=>{ const v=state.fs[f.k]; d[f.k]= (v==null||isNaN(v))?0:v; if(v) any=true; });
+  const ta=d.ca+d.nca, tl=d.cl+d.ncl, le=tl+d.eq;
+  const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent = any? won(v):"–";};
+  set("o_ta",ta); set("o_tl",tl); set("o_le",le);
+  set("o_gp", d.rev-d.cogs); set("o_op", d.rev-d.cogs-d.sga);
+  const msg=document.getElementById("balMsg");
+  if(msg){
+    if(!any) msg.innerHTML="";
+    else if(ta===le) msg.innerHTML=`<div class="okbox">자산총계와 부채·자본 합계가 일치합니다. 대차평균의 원리가 지켜졌어요.</div>`;
+    else msg.innerHTML=`<div class="warnbox">자산총계와 부채·자본 합계가 ${won(Math.abs(ta-le))}원 어긋납니다. 옮겨 적은 금액을 다시 확인해 보세요.</div>`;
+  }
+  const box=document.getElementById("ratioBox"); if(!box) return;
+  box.innerHTML = ratioCards(d, any);
+  renderDupont(d, any);
+  renderCCC(d, any);
+}
+function ratioCards(d, any){
+  return RATIOS.map(r=>{
+    const v = any? r.calc(d) : NaN;
+    const show = isFinite(v)? v.toFixed(r.u==="회"?1:1) : "–";
+    const [txt,cls] = isFinite(v)? r.band(v) : ["입력 대기","ink-3"];
+    const pct = isFinite(v)? Math.max(2, Math.min(100, v/r.max*100)) : 0;
+    const refPct = Math.max(0, Math.min(100, r.ref/r.max*100));
+    const color = cls==="ok"?"var(--ok)":cls==="warn"?"var(--warn)":cls==="no"?"var(--no)":"var(--rule)";
+    return `<div class="rc" style="--c:${isFinite(v)?color:'var(--ink-3)'}" tabindex="0"><div class="rn">${r.n}</div>
+      <div class="rv" style="color:${isFinite(v)?color:'var(--ink-3)'}">${show}<span style="font-size:13px;font-weight:400"> ${isFinite(v)?r.u:""}</span></div>
+      <div class="rf">${r.f}</div>
+      <svg viewBox="0 0 100 9" preserveAspectRatio="none" role="img" aria-label="${r.n} ${show}${r.u}">
+        <rect x="0" y="3" width="100" height="3" fill="var(--rule-2)"></rect>
+        <rect x="0" y="2" width="${pct}" height="5" fill="${color}"></rect>
+        <rect x="${refPct-0.4}" y="0" width="0.8" height="9" fill="var(--ink-3)"></rect>
+      </svg>
+      <div class="rj"><b style="color:${isFinite(v)?color:'var(--ink-3)'}">${txt}</b> · ${r.say}</div>
+      <div class="refnote">막대 안 세로선은 참고 기준 <b>${r.ref}${r.u}</b>입니다. ${r.lower?"낮을수록":"높을수록"} 좋게 보지만, 업종과 규모에 따라 적정선은 달라집니다.</div></div>`;
+  }).join("");
+}
+
+/* 듀폰 분해 : ROE = 순이익률 × 총자산회전율 × 재무레버리지 */
+function renderDupont(d, any){
+  const box=document.getElementById("dupontBox"), msg=document.getElementById("dupontMsg");
+  if(!box) return;
+  const ta=d.ca+d.nca;
+  const pm = d.rev? d.ni/d.rev*100 : NaN;
+  const at = ta? d.rev/ta : NaN;
+  const lv = d.eq? ta/d.eq : NaN;
+  const roe = (isFinite(pm)&&isFinite(at)&&isFinite(lv))? pm*at*lv : NaN;
+  const cell=(l,v,u,f,cls)=>`<div class="dp ${cls||""}"><div class="l">${l}</div>
+    <div class="v">${any&&isFinite(v)?v.toFixed(2):"–"}<span style="font-size:12px;font-weight:400"> ${u}</span></div>
+    <div class="f">${f}</div></div>`;
+  box.innerHTML =
+    cell("매출액순이익률", pm, "%", "당기순이익 ÷ 매출액") + `<div class="op">×</div>` +
+    cell("총자산회전율", at, "회", "매출액 ÷ 자산총계") + `<div class="op">×</div>` +
+    cell("재무레버리지", lv, "배", "자산총계 ÷ 자본총계") + `<div class="op">=</div>` +
+    cell("자기자본순이익률", roe, "%", "ROE", "res");
+  if(!msg) return;
+  if(!any || !isFinite(roe)){ msg.textContent=""; return; }
+  const score = [
+    {n:"수익성(순이익률)", v:pm, ref:5, tip:"판매가와 원가·판관비 구조를 손봐야 합니다"},
+    {n:"활동성(총자산회전율)", v:at, ref:1.5, tip:"놀고 있는 자산은 없는지, 재고와 매출채권이 묶여 있지 않은지 봐야 합니다"},
+    {n:"레버리지", v:lv, ref:2, tip:"빚에 기대는 정도"}
+  ];
+  const weak = score[0].v/score[0].ref <= score[1].v/score[1].ref ? score[0] : score[1];
+  const lvNote = lv>=2.5 ? " 다만 재무레버리지가 2.5배를 넘어, ROE가 높아 보이는 이유의 상당 부분이 빚이라는 점도 함께 봐야 합니다." : "";
+  msg.innerHTML = `세 힘 중 상대적으로 약한 쪽은 <b>${weak.n}</b>입니다. ${weak.tip}.${lvNote}`;
+}
+
+/* 현금전환주기 */
+function renderCCC(d, any){
+  const box=document.getElementById("cccBox"); if(!box) return;
+  const di = d.cogs? d.inv/d.cogs*365 : NaN;
+  const dr = d.rev? d.ar/d.rev*365 : NaN;
+  const dp = d.cogs? d.ap/d.cogs*365 : NaN;
+  if(!any || !isFinite(di)||!isFinite(dr)||!isFinite(dp)){
+    box.innerHTML = `<p class="note" style="margin:0">재고자산·매출채권·매입채무·매출원가 금액을 입력하면 계산됩니다.</p>`; return;
+  }
+  const ccc = di+dr-dp;
+  const span = Math.max(di+dr, dp) || 1;
+  const X = v => 4 + v/span*92;
+  const need = d.rev/365*ccc;
+  box.innerHTML = `
+  <svg viewBox="0 0 100 44" preserveAspectRatio="none" role="img" aria-label="현금전환주기 ${ccc.toFixed(0)}일">
+    <rect x="${X(0)}" y="4" width="${X(di)-X(0)}" height="7" fill="var(--warn)" opacity=".85"></rect>
+    <rect x="${X(di)}" y="4" width="${X(di+dr)-X(di)}" height="7" fill="var(--debit)" opacity=".85"></rect>
+    <rect x="${X(0)}" y="16" width="${X(dp)-X(0)}" height="7" fill="var(--credit)" opacity=".75"></rect>
+    <rect x="${X(dp)}" y="28" width="${Math.max(0.6,X(di+dr)-X(dp))}" height="7" fill="var(--ok)"></rect>
+    <line x1="${X(dp)}" y1="16" x2="${X(dp)}" y2="35" stroke="var(--ink-3)" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="3 3"></line>
+    <line x1="${X(di+dr)}" y1="4" x2="${X(di+dr)}" y2="35" stroke="var(--ink-3)" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="3 3"></line>
+  </svg>
+  <div class="sumline" style="border:0;margin-top:2px;font-size:11.5px">
+    <span style="color:var(--warn)">■ 재고 보유</span><span style="color:var(--debit)">■ 대금 회수 대기</span>
+    <span style="color:var(--credit)">■ 매입대금 지급 유예</span><span style="color:var(--ok)">■ 현금이 묶이는 기간</span></div>
+  <table class="data" style="margin-top:10px;min-width:0">
+    <tr><th style="text-align:left">구간</th><th>일수</th><th style="text-align:left">뜻</th></tr>
+    <tr><td class="l">재고 보유기간</td><td class="r">${di.toFixed(0)}일</td><td class="l">상품을 사서 팔 때까지</td></tr>
+    <tr><td class="l">매출채권 회수기간</td><td class="r">${dr.toFixed(0)}일</td><td class="l">팔고 나서 돈을 받을 때까지</td></tr>
+    <tr><td class="l">매입채무 지급기간</td><td class="r">${dp.toFixed(0)}일</td><td class="l">사고 나서 돈을 낼 때까지(버는 시간)</td></tr>
+    <tr><td class="l"><b>현금전환주기(CCC)</b></td><td class="r"><b>${ccc.toFixed(0)}일</b></td><td class="l">${di.toFixed(0)} + ${dr.toFixed(0)} − ${dp.toFixed(0)}</td></tr>
+  </table>
+  <div class="${ccc>0?"warnbox":"okbox"}">${ccc>0
+    ? `매입대금을 먼저 내고 <b>${ccc.toFixed(0)}일</b> 뒤에야 판매대금이 들어옵니다. 그동안 버티려면 대략 <b>${won(Math.round(need))}원</b>(매출액 ÷ 365 × CCC)의 운전자금이 필요합니다. 이익이 나도 이 돈이 없으면 흑자도산이 일어납니다.`
+    : `판매대금을 먼저 받고 매입대금을 나중에 냅니다. 사실상 거래처 돈으로 장사하는 구조여서 자금 부담이 거의 없습니다.`}</div>`;
+}
+
+/* =========================================================
+   6. 심화+ : IT 기업 재무제표 읽기
+   ========================================================= */
+const IT_TYPES = ["전자제품 도소매(유통)","구독형 소프트웨어(SaaS)","모바일 게임 개발사"];
+const IT_FIRMS = [
+ {id:"f1", name:"가 회사", ans:0,
+  m:{"매출총이익률":"12.4%","재고자산회전율":"14.2회","매출채권 회수기간":"55일","무형자산이 자산에서 차지하는 비중":"2%","인건비가 매출에서 차지하는 비중":"5%","연구개발비 비중":"0.2%","계약부채(선수금)":"거의 없음"},
+  why:"팔 물건을 쌓아두고 마진을 조금 붙여 넘기는 구조입니다. 재고가 있으니 회전율이 계산되고, 거래처에 외상으로 넘기니 회수기간이 깁니다. 무형자산·연구개발비가 거의 없다는 점이 결정적 단서예요."},
+ {id:"f2", name:"나 회사", ans:1,
+  m:{"매출총이익률":"82.0%","재고자산회전율":"해당 없음(재고 0)","매출채권 회수기간":"38일","무형자산이 자산에서 차지하는 비중":"27%","인건비가 매출에서 차지하는 비중":"44%","연구개발비 비중":"19%","계약부채(선수금)":"매출액의 35%"},
+  why:"복제 비용이 거의 0이라 매출총이익률이 80%를 넘습니다. 원가 대신 <b>사람과 개발</b>에 돈이 들어가고, 1년치 구독료를 미리 받아 <b>계약부채(부채)</b>로 쌓아둔 뒤 매달 수익으로 나눠 인식합니다. 계약부채가 크다는 건 이미 팔아둔 미래 매출이 있다는 뜻이에요."},
+ {id:"f3", name:"다 회사", ans:2,
+  m:{"매출총이익률":"66.0%","재고자산회전율":"해당 없음(재고 0)","매출채권 회수기간":"22일","무형자산이 자산에서 차지하는 비중":"31%","인건비가 매출에서 차지하는 비중":"38%","광고선전비 비중":"26%","계약부채(선수금)":"매출액의 8%"},
+  why:"재고는 없지만 앱마켓 수수료가 원가로 빠져 매출총이익률이 SaaS보다 낮습니다. 정산이 자동이라 회수기간이 짧고, 신규 이용자를 사 오느라 <b>광고선전비가 매출의 4분의 1</b>을 넘는 것이 이 업종의 특징입니다."}
+];
+const BEP_PRESETS = {
+  dist:{label:"유통형(드림패션)", fc:30000000, p:100000, vc:78000,
+        note:"상품을 사 와서 파는 구조 — 고정비는 작지만 하나 팔 때마다 원가 78,000원이 따라붙습니다. 판매수량 1,500개를 기준으로 구독형과 비교해 보세요."},
+  saas:{label:"구독형 소프트웨어", fc:129000000, p:100000, vc:12000,
+        note:"개발자 인건비·서버 유지비가 먼저 나가고, 이용자가 한 명 늘 때 드는 돈은 아주 작습니다. 유통형과 같은 1,500개 지점에서 매출도 영업이익도 같지만, 거기서 조금만 움직이면 결과가 달라집니다."}
+};
+const ESSAYS2 = [
+ {id:"x1", q:"두 회사는 판매수량 1,500개에서 매출액도 영업이익도 똑같습니다. 그런데 판매량이 10% 늘거나 줄면 결과가 전혀 달라집니다. 그 이유를 영업레버리지도를 근거로 설명하고, 두 회사가 각각 어디에 힘을 쏟아야 할지 쓰세요.",
+  model:"1,500개 지점에서 영업레버리지도는 유통형 11배, 구독형 44배입니다. 유통형은 판매가의 78%가 변동비로 빠져 공헌이익이 작고, 구독형은 88%가 공헌이익으로 남는 대신 고정비가 1억 2,900만 원이나 됩니다. 그래서 판매량이 10% 늘면 영업이익이 유통형은 110%(300만→630만), 구독형은 440%(300만→1,620만) 늘고, 10% 줄면 구독형은 1,020만 원 적자로 돌아섭니다. <b>고정비 비중이 높을수록 손익분기점을 넘기기 전까지는 위험하고, 넘긴 뒤에는 폭발적입니다.</b> 따라서 구독형은 손익분기점을 넘길 이용자 수를 빠르게 확보하는 것이, 유통형은 매입 단가를 낮추고 재고를 빨리 돌려 공헌이익을 키우는 것이 핵심입니다."},
+ {id:"x2", q:"소프트웨어 개발에 쓴 3억 원을 ① 전액 당기 비용(경상연구개발비)으로 처리할 때와 ② 무형자산(개발비)으로 잡고 5년간 상각할 때, 재무상태표와 포괄손익계산서는 어떻게 달라질까요? 이런 선택이 가능하다는 점이 재무제표를 읽는 사람에게 주는 시사점도 함께 쓰세요.",
+  model:"① 비용 처리하면 당기 영업이익이 3억 원 줄고 자산은 늘지 않습니다. ② 자산으로 잡으면 당기 비용은 상각액 6천만 원뿐이어서 이익이 2억 4천만 원 더 커 보이고, 재무상태표에는 무형자산 3억 원이 남아 자산총계와 자기자본비율도 좋아 보입니다. 같은 지출인데 회사의 모습이 달라지는 것이죠. 그래서 재무제표를 읽을 때는 이익 숫자만 볼 것이 아니라 <b>무형자산(개발비)의 크기와 증가 속도, 상각 방법, 그리고 실제 현금이 얼마나 들어왔는지(현금흐름)</b>를 함께 확인해야 합니다. 개발한 제품이 실패하면 그 자산은 손상차손으로 한꺼번에 비용이 됩니다."}
+];
+
+function viewIT(){
+  const firm = f => `<div class="firmcard" id="fc_${f.id}"><h4>${f.name}</h4>
+    <table>${Object.entries(f.m).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join("")}</table>
+    <div class="pick"><select data-firm="${f.id}"><option value="">업종을 고르세요</option>${IT_TYPES.map((t,i)=>`<option value="${i}">${t}</option>`).join("")}</select></div>
+    <div class="sol" hidden style="margin-top:9px"><h4>${IT_TYPES[f.ans]}</h4><p style="margin:0">${f.why}</p></div></div>`;
+  return `<div class="lede"><h2>IT 기업의 재무제표는 어디가 다른가</h2>
+  <p>여러분이 일하게 될 회사는 상품을 쌓아두지 않고, 대신 사람·코드·이용자를 자산으로 삼습니다. 같은 계정과목이 업종에 따라 어떻게 다르게 나타나는지 확인하고, 고정비가 큰 사업의 이익 구조를 직접 움직여 봅니다.</p></div>
+
+  ${qCard("탐정","비율만 보고 업종을 맞혀 보세요",
+    `<p class="note" style="margin:0 0 12px">세 회사의 재무비율입니다. 손익계산서 한 줄 없이도 무슨 장사를 하는 회사인지 알 수 있습니다.</p>
+     ${IT_FIRMS.map(firm).join("")}
+     <div class="acts"><button type="button" class="btn" id="matchCheck">채점</button>
+       <button type="button" class="btn ghost" id="matchSol">해설 보기</button><span class="verdict" id="matchV" hidden></span></div>
+     <div class="hint"><b>읽는 순서</b> · ① 재고가 있는가 → 물건을 파는가 서비스를 파는가 ② 매출총이익률이 높은가 → 복제 비용이 드는가 ③ 돈이 원가로 나가는가 인건비·광고비로 나가는가 ④ 계약부채가 있는가 → 미리 받는 구조인가</div>`,"match")}
+
+  ${qCard("시뮬레이터","고정비가 큰 사업은 어떻게 이익을 내는가",
+    `<div class="toolbar" style="margin-bottom:12px">
+       <button class="btn ghost" data-bep="dist">유통형 불러오기</button>
+       <button class="btn ghost" data-bep="saas">구독형 불러오기</button>
+     </div>
+     <div class="bepwrap">
+       <div class="bep"><div id="bepChart"></div>
+         <div style="margin-top:12px"><label for="bepQ" style="font-size:12.5px;color:var(--ink-2)">판매수량 <b id="bepQL" class="num"></b>개</label>
+         <input type="range" id="bepQ" min="0" max="4000" step="10"></div>
+         <div class="kpi" id="bepKpi"></div>
+       </div>
+       <div>
+         <div class="fsrow"><span>연간 고정비</span><input class="amt bep-in" data-bep-k="fc" type="text" inputmode="numeric"></div>
+         <div class="fsrow"><span>단위당 판매가</span><input class="amt bep-in" data-bep-k="p" type="text" inputmode="numeric"></div>
+         <div class="fsrow"><span>단위당 변동비</span><input class="amt bep-in" data-bep-k="vc" type="text" inputmode="numeric"></div>
+         <p class="note" id="bepNote"></p>
+       </div>
+     </div>
+     <div class="hint"><b>공헌이익</b> = 판매가 − 변동비 · <b>손익분기점 수량</b> = 고정비 ÷ 공헌이익 · <b>영업레버리지도</b> = 공헌이익 총액 ÷ 영업이익(매출이 1% 변할 때 영업이익이 몇 % 변하는가). 두 프리셋 모두 <b>판매수량 1,500개에서 매출 150,000,000원 · 영업이익 3,000,000원</b>으로 같습니다. 거기서 슬라이더를 1,650개(＋10%)와 1,350개(－10%)로 옮겨 두 회사의 영업이익을 각각 적어 보세요.</div>`,"bep")}
+
+  ${qCard("추세","작년과 비교하면 무엇이 보이나요",
+    `<p class="note" style="margin:0 0 12px">당기 금액은 앞 단계에서 입력한 값을 그대로 가져옵니다. 전기 금액을 넣으면 증감률과 매출액 대비 구성비를 함께 계산합니다.</p>
+     <div class="grid2" style="margin-bottom:14px">
+       <div class="fs"><h3>전기 금액 입력</h3><p class="sub">단위 원</p>
+         <div class="fsrow"><span>매출액</span><input class="amt tr-in" data-tr="rev" type="text" inputmode="numeric"></div>
+         <div class="fsrow"><span>매출원가</span><input class="amt tr-in" data-tr="cogs" type="text" inputmode="numeric"></div>
+         <div class="fsrow"><span>판매비와관리비</span><input class="amt tr-in" data-tr="sga" type="text" inputmode="numeric"></div>
+         <div class="fsrow"><span>당기순이익</span><input class="amt tr-in" data-tr="ni" type="text" inputmode="numeric"></div>
+       </div>
+       <div class="fs"><h3>읽는 법</h3><p class="sub">두 가지 시선</p>
+         <p class="note" style="margin:0">가로로 보면(<b>추세분석</b>) 작년 대비 무엇이 얼마나 변했는지, 세로로 보면(<b>수직분석</b>) 매출 100원 중 몇 원이 원가와 판관비로 나갔는지 보입니다. 매출이 늘어도 원가 비중이 더 빨리 늘면 이익은 줄어듭니다.</p></div>
+     </div>
+     <div class="scroll" id="trendBox"></div>`,"trend")}
+
+  ${ESSAYS2.map((e,i)=>qCard(`해석 ${i+5}`, e.q,
+    `<textarea data-essay="${e.id}" placeholder="계산한 수치를 근거로 들어 4~6문장으로 써 보세요."></textarea>
+     <div class="acts"><button type="button" class="btn ghost" data-sol>모범답안 보기</button></div>
+     <div class="sol" hidden><h4>이렇게 쓸 수 있어요</h4><p style="margin:0">${e.model}</p></div>`, e.id)).join("")}
+
+  ${qCard("프로젝트","전공을 살린 확장 과제",
+    `<ul style="margin:0;padding-left:20px;font-size:13.5px">
+      <li><b>DART에서 실제 데이터 가져오기</b> — 전자공시시스템 Open API로 관심 기업의 재무제표를 받아 유동비율·ROE를 계산하는 스크립트를 만들고, 이 화면의 계산 결과와 비교해 검증하기</li>
+      <li><b>비율 계산기 직접 만들기</b> — 스프레드시트나 파이썬으로 금액을 넣으면 비율이 자동으로 나오는 도구를 만들되, 분모가 0일 때·전기 데이터가 없을 때 같은 예외 처리까지 설계하기</li>
+      <li><b>대시보드 설계</b> — 경영진이 매달 10초 안에 회사 상태를 파악해야 한다면 어떤 지표 다섯 개를 어떤 순서로 배치할지 화면을 스케치하고 그 이유를 설명하기</li>
+      <li><b>창업 팀 재무 계획</b> — 우리가 만들 서비스의 고정비·변동비를 추정해 손익분기점을 계산하고, 몇 명의 이용자를 언제까지 모아야 하는지 발표하기</li>
+      <li><b>회계 데이터의 함정</b> — 개발비 자산화, 매출 인식 시점, 계약부채 처리처럼 판단이 들어가는 지점을 조사해 '숫자는 사실이 아니라 선택의 결과'라는 주제로 토론하기</li>
+    </ul>`,"proj")}`;
+}
+
+function initIT(){
+  state.it = state.it || {};
+  state.it.bep = state.it.bep || Object.assign({q:1500}, BEP_PRESETS.dist);
+  state.it.trend = state.it.trend || {rev:1050000000, cogs:780000000, sga:205000000, ni:38000000};
+  state.it.match = state.it.match || {};
+
+  view.querySelectorAll("[data-firm]").forEach(sel=>{
+    const v = state.it.match[sel.dataset.firm]; if(v!=null) sel.value=v;
+    sel.addEventListener("change",()=>{ state.it.match[sel.dataset.firm]= sel.value===""?null:Number(sel.value); save(); });
+  });
+  document.getElementById("matchCheck").onclick = ()=>{
+    let ok=true, done=true;
+    IT_FIRMS.forEach(f=>{
+      const card=document.getElementById("fc_"+f.id);
+      const pick=state.it.match[f.id];
+      card.classList.remove("ok","bad");
+      if(pick==null){ done=false; return; }
+      if(pick===f.ans) card.classList.add("ok"); else { card.classList.add("bad"); ok=false; }
+    });
+    const v=document.getElementById("matchV"); v.hidden=false;
+    v.className="verdict "+(done&&ok?"ok":"bad");
+    v.textContent = !done? "세 회사를 모두 골라 주세요" : ok? "세 회사 모두 정답" : "다시 확인";
+  };
+  document.getElementById("matchSol").onclick = ()=>{
+    const cards=view.querySelectorAll("#card_match .sol");
+    const hide = !cards[0].hidden;
+    cards.forEach(c=>c.hidden=hide);
+    document.getElementById("matchSol").textContent = hide? "해설 보기":"해설 접기";
+  };
+
+  view.querySelectorAll("[data-bep]").forEach(b=>b.addEventListener("click",()=>{
+    const pre=BEP_PRESETS[b.dataset.bep];
+    state.it.bep = Object.assign({}, pre, {q: state.it.bep.q});
+    fillBep(); computeBep(); save();
+  }));
+  view.querySelectorAll(".bep-in").forEach(i=>i.addEventListener("input",()=>{
+    const n=num(i.value); state.it.bep[i.dataset.bepK]=isNaN(n)?0:n; computeBep(); save();
+  }));
+  const q=document.getElementById("bepQ");
+  q.addEventListener("input",()=>{ state.it.bep.q=Number(q.value); computeBep(); save(); });
+  fillBep(); computeBep();
+
+  view.querySelectorAll(".tr-in").forEach(i=>{
+    const v=state.it.trend[i.dataset.tr]; if(v!=null) i.value=won(v);
+    i.addEventListener("input",()=>{ const n=num(i.value); state.it.trend[i.dataset.tr]=isNaN(n)?0:n; computeTrend(); save(); });
+  });
+  computeTrend();
+}
+function fillBep(){
+  const b=state.it.bep;
+  view.querySelectorAll(".bep-in").forEach(i=>i.value=won(b[i.dataset.bepK]));
+  const n=document.getElementById("bepNote"); const key=Object.keys(BEP_PRESETS).find(k=>BEP_PRESETS[k].fc===b.fc&&BEP_PRESETS[k].vc===b.vc);
+  n.textContent = key? BEP_PRESETS[key].note : "";
+}
+function computeBep(){
+  const b=state.it.bep, cm=b.p-b.vc;
+  const bepQ = cm>0? b.fc/cm : NaN;
+  const q = b.q, rev=b.p*q, cost=b.fc+b.vc*q, op=rev-cost;
+  const dol = op!==0? (cm*q)/op : NaN;
+  const ms = q>0? (q-bepQ)/q*100 : NaN;
+  document.getElementById("bepQL").textContent = won(q);
+  const slider = document.getElementById("bepQ");
+  const qMax = Math.max(1000, isFinite(bepQ)? Math.ceil(bepQ*2.2/100)*100 : 1000, q);
+  slider.max = qMax; slider.value = q;
+  const yMax = Math.max(b.p*qMax, b.fc+b.vc*qMax) || 1;
+  const X = v => 6 + v/qMax*92, Y = v => 92 - v/yMax*84;
+  const bx = isFinite(bepQ)&&bepQ<=qMax ? X(bepQ) : null;
+  document.getElementById("bepChart").innerHTML = `
+  <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="손익분기점 그래프">
+    <line x1="6" y1="92" x2="98" y2="92" stroke="var(--rule)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+    <line x1="6" y1="8" x2="6" y2="92" stroke="var(--rule)" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+    <line x1="${X(0)}" y1="${Y(b.fc)}" x2="${X(qMax)}" y2="${Y(b.fc)}" stroke="var(--ink-3)" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 4"></line>
+    <line x1="${X(0)}" y1="${Y(b.fc)}" x2="${X(qMax)}" y2="${Y(b.fc+b.vc*qMax)}" stroke="var(--credit)" stroke-width="2" vector-effect="non-scaling-stroke"></line>
+    <line x1="${X(0)}" y1="${Y(0)}" x2="${X(qMax)}" y2="${Y(b.p*qMax)}" stroke="var(--debit)" stroke-width="2" vector-effect="non-scaling-stroke"></line>
+    ${bx!=null?`<line x1="${bx}" y1="8" x2="${bx}" y2="92" stroke="var(--ok)" stroke-width="1.5" vector-effect="non-scaling-stroke"></line>
+       <rect x="${bx-0.9}" y="${Y(b.p*bepQ)-1.8}" width="1.8" height="3.6" fill="var(--ok)"></rect>`:""}
+    <line x1="${X(q)}" y1="8" x2="${X(q)}" y2="92" stroke="var(--brand)" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-dasharray="5 4"></line>
+  </svg>
+  <div class="sumline" style="border:0;margin-top:4px"><span style="color:var(--debit)">매출액</span><span style="color:var(--credit)">총비용</span><span style="color:var(--ok)">손익분기점</span><span style="color:var(--brand)">현재 판매량</span></div>`;
+  const k=(l,v)=>`<div><div class="l">${l}</div><div class="v">${v}</div></div>`;
+  document.getElementById("bepKpi").innerHTML =
+    k("공헌이익(단위당)", cm>0? won(cm)+"원":"–") +
+    k("손익분기점 수량", isFinite(bepQ)? won(Math.ceil(bepQ))+"개":"–") +
+    k("손익분기점 매출액", isFinite(bepQ)? won(Math.ceil(bepQ*b.p))+"원":"–") +
+    k("영업이익", `<span style="color:${op>=0?"var(--ok)":"var(--no)"}">${won(Math.round(op))}원</span>`) +
+    k("안전한계율", isFinite(ms)? ms.toFixed(1)+"%":"–") +
+    k("영업레버리지도", isFinite(dol)&&op>0? dol.toFixed(1)+"배":"–");
+}
+function computeTrend(){
+  const cur={rev:state.fs.rev||0, cogs:state.fs.cogs||0, sga:state.fs.sga||0, ni:state.fs.ni||0};
+  const pre=state.it.trend;
+  const rows=[["매출액","rev"],["매출원가","cogs"],["판매비와관리비","sga"],["당기순이익","ni"]];
+  const pct=(v,base)=> base? (v/base*100).toFixed(1)+"%" : "–";
+  const gr=(c,p)=> p? ((c-p)/p*100) : NaN;
+  document.getElementById("trendBox").innerHTML = `<table class="data">
+   <tr><th>구분</th><th>전기</th><th>당기</th><th>증감액</th><th>증감률</th><th>전기 매출 대비</th><th>당기 매출 대비</th></tr>
+   ${rows.map(([l,k])=>{
+     const g=gr(cur[k],pre[k]);
+     const col = !isFinite(g)?"var(--ink-3)": (k==="cogs"||k==="sga") ? (g>0?"var(--no)":"var(--ok)") : (g>0?"var(--ok)":"var(--no)");
+     return `<tr><td class="l">${l}</td><td class="r">${won(pre[k])}</td><td class="r">${won(cur[k])}</td>
+     <td class="r">${won(cur[k]-pre[k])}</td><td class="r" style="color:${col}">${isFinite(g)?(g>0?"+":"")+g.toFixed(1)+"%":"–"}</td>
+     <td class="r">${pct(pre[k],pre.rev)}</td><td class="r">${pct(cur[k],cur.rev)}</td></tr>`;
+   }).join("")}
+  </table>
+  ${cur.rev? "":`<p class="note">앞 단계(재무제표 분석)에서 당기 금액을 입력하거나 예시 데이터를 불러오면 당기 열이 채워집니다.</p>`}`;
+}
+
+/* =========================================================
+   7. AI 감사팀 / 실제 기업 검증 — 공통 부품
+   ========================================================= */
+const REPS = {};
+function ns(n){ state[n]=state[n]||{}; return state[n]; }
+function promptCard(label, text){
+  return `<div class="prompt"><div class="pbar"><span class="pl">${label}</span>
+    <button type="button" class="copy" data-copy>프롬프트 복사</button></div>
+    <p class="ptxt">${esc(text)}</p></div>`;
+}
+function doCopy(text, btn){
+  const old = btn.textContent, ok=()=>{ btn.textContent="복사했어요"; setTimeout(()=>btn.textContent=old,1400); };
+  const fb=()=>{ const ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); ok(); }catch(e){ btn.textContent="복사 실패"; setTimeout(()=>btn.textContent=old,1400); } document.body.removeChild(ta); };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok).catch(fb); } else fb();
+}
+function field(n, k, ph, rows){
+  return `<textarea data-st="${n}.${k}" rows="${rows||3}" placeholder="${ph||""}"></textarea>`;
+}
+function repWrap(n, k, cols, min){
+  REPS[n+"."+k]={cols:cols, min:min};
+  return `<div id="rep_${n}_${k}"></div>`;
+}
+function drawRep(n, k){
+  const cfg=REPS[n+"."+k], box=document.getElementById(`rep_${n}_${k}`); if(!cfg||!box) return;
+  const store=ns(n);
+  if(!Array.isArray(store[k]) || !store[k].length) store[k]=Array(cfg.min).fill(0).map(()=>cfg.cols.map(()=>""));
+  const rows=store[k];
+  box.innerHTML = `<div class="scroll"><table class="rep"><thead><tr>${cfg.cols.map(c=>`<th style="${c.w?`width:${c.w}`:""}">${c.l}</th>`).join("")}<th style="width:34px"></th></tr></thead>
+    <tbody>${rows.map((r,i)=>`<tr>${cfg.cols.map((c,j)=>`<td>${c.opts
+      ? `<select data-ri="${i}" data-ci="${j}"><option value="">선택</option>${c.opts.map(o=>`<option${r[j]===o?" selected":""}>${o}</option>`).join("")}</select>`
+      : `<textarea rows="2" data-ri="${i}" data-ci="${j}" placeholder="${c.p||""}">${esc(r[j]||"")}</textarea>`}</td>`).join("")}
+      <td><button type="button" class="rowdel" data-ri="${i}" aria-label="행 삭제">×</button></td></tr>`).join("")}</tbody></table></div>
+    <button type="button" class="addrow" data-repadd>행 추가</button>`;
+  box.querySelectorAll("textarea,select").forEach(el=>el.addEventListener("input",()=>{
+    rows[Number(el.dataset.ri)][Number(el.dataset.ci)] = el.value; save();
+  }));
+  box.querySelectorAll(".rowdel").forEach(b=>b.addEventListener("click",()=>{
+    if(rows.length<=1) return; rows.splice(Number(b.dataset.ri),1); save(); drawRep(n,k);
+  }));
+  box.querySelector("[data-repadd]").addEventListener("click",()=>{
+    rows.push(cfg.cols.map(()=>"")); save(); drawRep(n,k);
+  });
+}
+function checklist(n, k, items){
+  const store=ns(n); store[k]=store[k]||{};
+  return `<div data-chk="${n}.${k}">${items.map((it,i)=>
+    `<label class="check${store[k][i]?" on":""}"><input type="checkbox" data-i="${i}"${store[k][i]?" checked":""}>
+      <span><span class="cat">${it.c}</span>${it.t}</span></label>`).join("")}</div>`;
+}
+function initForms(){
+  view.querySelectorAll("[data-st]").forEach(el=>{
+    const [n,k]=el.dataset.st.split("."); const v=ns(n)[k]; if(v!=null) el.value=v;
+    el.addEventListener("input",()=>{ ns(n)[k]=el.value; save(); });
+    el.addEventListener("change",()=>{ ns(n)[k]=el.value; save(); });
+  });
+  view.querySelectorAll("[data-chk]").forEach(box=>{
+    const [n,k]=box.dataset.chk.split(".");
+    box.querySelectorAll("input").forEach(cb=>cb.addEventListener("change",()=>{
+      ns(n)[k][cb.dataset.i]=cb.checked; cb.closest(".check").classList.toggle("on",cb.checked); save();
+    }));
+  });
+  view.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{
+    const t=b.closest(".prompt").querySelector(".ptxt").textContent; doCopy(t,b);
+  }));
+  Object.keys(REPS).forEach(key=>{ const [n,k]=key.split("."); drawRep(n,k); });
+  const caseBox=document.getElementById("caseSel");
+  if(caseBox){
+    caseBox.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+      ns("audit").case=b.dataset.case; save(); render();
+    }));
+  }
+  const rep=document.getElementById("makeReport");
+  if(rep) rep.addEventListener("click",()=>doCopy(buildAuditReport(),rep));
+  const rep2=document.getElementById("makeDartReport");
+  if(rep2) rep2.addEventListener("click",()=>doCopy(buildDartReport(),rep2));
+  const dartBox=document.getElementById("dartFs");
+  if(dartBox){
+    dartBox.querySelectorAll(".dfs-in").forEach(i=>{
+      const v=ns("dart").fs && ns("dart").fs[i.dataset.dfs]; if(v!=null) i.value=won(v);
+      i.addEventListener("input",()=>{ const d=ns("dart"); d.fs=d.fs||{}; const nv=num(i.value); d.fs[i.dataset.dfs]=isNaN(nv)?null:nv; computeDart(); save(); });
+    });
+    computeDart();
+  }
+}
+
+/* ---------- 감사 사건 ---------- */
+const CASES = {
+ c1:{ label:"사건 1 · 금융자산 처분",
+   prompt:`너는 회계 담당자야. 아래 거래를 더존 New sPLUS에 입력할 분개로 작성해 줘.
+차변과 대변, 계정과목과 금액을 표로 정리하고, 처분손익 계산 과정과 계정과목을 고른 이유도 설명해 줘.
+
+[거래] 2026년 7월 5일. 우리 회사((주)드림패션, 의류 도소매업)는 5월 7일에 단기 시세차익 목적으로 1주당 20,000원에 취득한 주식 200주 중 150주를 1주당 22,000원에 처분했다. 처분대금은 수수료 15,000원을 제외하고 받아 즉시 보통예금(제일은행) 계좌에 예입했다.`,
+   check:"수수료를 별도 비용으로 뺐는지 처분이익에서 차감했는지, 계정과목 이름이 K-IFRS 명칭(당기손익-공정가치측정금융자산)인지 옛 명칭(단기매매증권)인지 확인하세요." },
+ c2:{ label:"사건 2 · 자기앞수표와 사회보험료",
+   prompt:`너는 회계 담당자야. 아래 두 거래를 각각 분개하고, 계정과목을 고른 이유도 설명해 줘.
+
+[거래 1] 2026년 7월 4일. 카멜레온(주)에서 상품 30,000,000원(부가가치세 별도 3,000,000원)을 매입하고 전자세금계산서를 받았다. 부가가치세 3,000,000원은 자기앞수표로 지급하고 나머지는 외상으로 했다.
+
+[거래 2] 2026년 7월 10일. 6월분 국민연금 300,000원(회사부담분 150,000원 포함)과 건강보험 240,000원(회사부담분 120,000원 포함)을 보통예금(신한은행) 계좌에서 납부했다.`,
+   check:"자기앞수표를 무슨 계정으로 봤는지, 국민연금과 건강보험의 회사부담분을 같은 계정으로 뭉뚱그리지 않았는지 확인하세요." },
+ c3:{ label:"사건 3 · 결산 정리",
+   prompt:`너는 회계 담당자야. 2026년 12월 31일 결산 정리 분개를 작성하고, 계산 과정도 함께 보여 줘.
+
+[자료]
+· 매출채권 잔액 : 외상매출금 147,250,000원, 받을어음 5,000,000원
+· 대손충당금 잔액 : 외상매출금에 대한 것 500,000원, 받을어음에 대한 것 0원
+· 매출채권 잔액에 대해 1%의 대손충당금을 보충법으로 설정한다.
+· 기말 현재 임대료 미수분 1,500,000원이 있다.
+· 합계잔액시산표의 현금과부족 계정 잔액은 −45,000원이며, 원인은 끝내 밝혀지지 않았다.`,
+   check:"이미 쌓여 있던 충당금을 빼고 계산했는지, 현금과부족 잔액의 부호(−)를 보고 잡이익과 잡손실 중 무엇으로 판단했는지 따라가 보세요." },
+ c4:{ label:"사건 4 · 재무비율 해석",
+   prompt:`너는 재무 분석가야. 아래 회사의 재무 상태를 세 문단으로 분석하고, 투자자에게 권할지 말지 결론을 내려 줘.
+
+[요약 재무제표] 단위 원
+· 유동자산 424,000,000 (그중 재고자산 87,000,000) · 비유동자산 386,000,000
+· 유동부채 268,000,000 · 비유동부채 92,000,000 · 자본총계 450,000,000
+· 매출액 1,240,000,000 · 매출원가 930,000,000 · 판매비와관리비 250,000,000 · 당기순이익 45,000,000
+· 매출채권(평균) 210,000,000 · 매입채무(평균) 150,000,000`,
+   check:"이번에는 분개가 아니라 문장을 감사합니다. AI가 쓴 문장 하나하나에 대해 '이 숫자가 어디서 나왔지?'를 물어보세요. 계산해 보면 틀린 비율, 자료에 없는 정보, 근거 없는 단정이 섞여 있을 수 있습니다." }
+};
+const AUDIT_CHECK = [
+ {c:"분개", t:"차변 합계와 대변 합계가 일치하는가"},
+ {c:"분개", t:"제시된 금액을 하나도 빠뜨리지 않고 썼는가 (총액인지 순액인지)"},
+ {c:"계정", t:"상거래에서 생긴 채권·채무인가, 아닌가 (외상매출금·외상매입금 ↔ 미수금·미지급금)"},
+ {c:"계정", t:"자산을 처분할 때 장부가액을 먼저 확인하고 처분손익을 계산했는가"},
+ {c:"계정", t:"우리 프로그램의 계정과목 체계에 실제로 있는 이름인가 (없는 계정을 지어내지 않았는가)"},
+ {c:"계정", t:"거래처를 입력해야 하는 계정(채권·채무·금융)에 거래처가 지정되었는가"},
+ {c:"계산", t:"금액을 직접 계산기로 다시 계산했는가 (특히 비율·월할·잔액 차감)"},
+ {c:"계산", t:"기존 잔액을 반영해야 하는 항목에서 잔액을 빼고 계산했는가"},
+ {c:"AI", t:"AI가 든 근거가 교과서·기준서에서 실제로 확인되는가 (없는 조항을 인용하지 않았는가)"},
+ {c:"AI", t:"자료에 없는 정보를 사실처럼 덧붙이지 않았는가"},
+ {c:"AI", t:"말투가 단정적인 부분일수록 더 의심하며 확인했는가"},
+ {c:"검증", t:"수정한 분개를 sPLUS에 입력해 장부·재무제표로 확인했는가"}
+];
+
+function viewAudit(){
+  const a=ns("audit"); const cur=a.case||"c1"; const C=CASES[cur];
+  return `<div class="lede"><h2>AI 감사팀</h2>
+  <p>오늘 여러분은 문제를 푸는 사람이 아니라, <b>이미 나온 답을 검증하는 사람</b>입니다. AI에게 회계 처리를 시키고, 그 결과를 감사해 오류를 찾아내고, 무엇을 근거로 그렇게 판단했는지 조서에 남깁니다. 정답표는 주지 않습니다. 근거를 대는 것이 정답입니다.</p></div>
+
+  ${qCard("1","감사 대상 배정 · 쓰던 AI 창에 그대로 붙여넣기",
+    `<div class="caseSel" id="caseSel">${Object.entries(CASES).map(([k,v])=>
+      `<button type="button" data-case="${k}" aria-pressed="${k===cur}">${v.label}</button>`).join("")}</div>
+     ${promptCard("AI에게 보낼 지시문", C.prompt)}
+     <div class="hint"><b>감사 착안점</b> · ${C.check}</div>
+     <p class="note">모둠마다 다른 사건을 맡아도 되고, 같은 사건을 서로 다른 AI(Claude·ChatGPT·Gemini 등)에 물어 결과를 비교해도 좋습니다. 어떤 AI를 썼는지는 아래에 기록하세요.</p>`,"a1")}
+
+  ${qCard("2","AI가 내놓은 답 기록",
+    `<div class="fieldline"><label for="ai_tool">사용한 AI와 날짜</label>
+       <input id="ai_tool" type="text" data-st="audit.tool" placeholder="예: Claude / 9월 16일" style="max-width:260px"></div>
+     <p class="note" style="margin:10px 0 6px;font-weight:600;color:var(--ink)">AI의 답변을 그대로 붙여넣으세요. 고치지 말고, 틀린 부분도 그대로 둡니다.</p>
+     ${field("audit","raw","AI가 준 분개와 설명을 그대로 붙여넣기", 9)}`,"a2")}
+
+  ${qCard("3","감사 체크리스트 · 항목마다 직접 확인한 뒤 체크",
+    checklist("audit","chk",AUDIT_CHECK) +
+    `<p class="note">체크는 '읽었다'가 아니라 '직접 확인했다'는 뜻입니다. 확인하지 않은 항목은 비워 두세요. 빈 항목이 남아 있다면 그것도 감사 결과의 일부입니다.</p>`,"a3")}
+
+  ${qCard("4","감사조서 · 발견한 문제를 근거와 함께 기록",
+    repWrap("audit","paper",[
+      {l:"발견한 문제", p:"무엇이 잘못되었나", w:"20%"},
+      {l:"AI가 쓴 표현(그대로)", p:"원문을 인용", w:"20%"},
+      {l:"올바른 처리", p:"어떻게 해야 하나", w:"20%"},
+      {l:"판단 근거", p:"교과서·기준·프로그램 조회 경로", w:"22%"},
+      {l:"재무제표에 미치는 영향", p:"어느 항목이 얼마나 달라지나", w:"18%"}
+    ],3) +
+    `<div class="hint">근거 칸이 가장 중요합니다. "그냥 아는 건데요"는 감사조서에 쓸 수 없습니다. <b>어느 자료의 어느 부분</b>, 또는 <b>프로그램의 어느 메뉴에서 조회한 결과</b>인지 적으세요.</div>`,"a4")}
+
+  ${qCard("5","프로그램으로 최종 검증",
+    `<p class="note" style="margin:0 0 8px">수정한 분개를 New sPLUS에 직접 입력하고, 아래 경로로 결과가 바뀌는지 확인하세요.</p>
+     <div class="path" style="white-space:normal">[회계] ⇒ [전표입력/장부] ⇒ [일반전표입력] 에 수정 분개 입력 → [합계잔액시산표]로 잔액 확인 → [결산/재무제표Ⅰ] ⇒ [재무상태표]·[손익계산서]로 영향 확인</div>
+     ${field("audit","verify","프로그램에서 확인한 결과를 적으세요. 예: 수정 전 유형자산처분이익 계상 → 수정 후 처분손실 500,000원, 당기순이익 1,000,000원 감소",4)}`,"a5")}
+
+  ${qCard("6","감사의견",
+    `<div class="fieldline"><label for="op">의견</label>
+      <select id="op" data-st="audit.opinion" style="max-width:260px">
+        <option value="">선택</option>
+        <option>적정 — 고칠 곳이 없다</option>
+        <option>한정 — 일부 오류가 있으나 전체 결론은 유지된다</option>
+        <option>부적정 — 오류가 커서 결론을 신뢰할 수 없다</option>
+      </select></div>
+     ${field("audit","reason","그렇게 판단한 이유를 세 문장 이상 쓰세요. 발견한 오류의 개수가 아니라 '그 오류가 재무제표 이용자의 판단을 바꾸는가'를 기준으로 쓰면 좋습니다.",4)}
+     <p class="note" style="margin-top:14px;font-weight:600;color:var(--ink)">마지막 질문 — 다음에 AI에게 회계를 맡길 때, 당신은 무엇을 반드시 직접 확인하겠습니까?</p>
+     ${field("audit","meta","나만의 검증 기준을 세 가지로 정리해 보세요.",3)}
+     <div class="acts"><button type="button" class="btn" id="makeReport">감사보고서 모아서 복사</button></div>
+     <p class="note">복사한 내용을 과제 제출 창에 붙여넣으면 됩니다.</p>`,"a6")}
+
+  ${qCard("평가","무엇을 보고 평가하나",
+    `<table class="data rubric"><tr><th>항목</th><th>배점</th><th style="text-align:left">기준</th></tr>
+     <tr><td class="l">오류 발견</td><td>40</td><td class="l">실제 오류를 찾아냈는가. 없는 오류를 만들어내지는 않았는가</td></tr>
+     <tr><td class="l">근거의 질</td><td>30</td><td class="l">교과서·기준·프로그램 조회 결과로 뒷받침했는가</td></tr>
+     <tr><td class="l">수정의 정확성</td><td>20</td><td class="l">수정 분개가 대차 일치하고 계정과목이 적절한가</td></tr>
+     <tr><td class="l">검증 태도</td><td>10</td><td class="l">체크하지 않은 항목을 솔직히 남겼는가, 자기 검증 기준을 세웠는가</td></tr></table>`,"a7")}`;
+}
+function buildAuditReport(){
+  const a=ns("audit"); const C=CASES[a.case||"c1"];
+  const rows=(a.paper||[]).filter(r=>r.some(c=>c&&c.trim()));
+  const chk=AUDIT_CHECK.map((it,i)=>`  [${(a.chk&&a.chk[i])?"V":" "}] ${it.t}`).join("\n");
+  return `■ AI 감사보고서
+감사 대상 : ${C.label}
+사용한 AI : ${a.tool||"(미기재)"}
+
+[1] AI의 답변
+${a.raw||"(미기재)"}
+
+[2] 체크리스트
+${chk}
+
+[3] 감사조서
+${rows.length? rows.map((r,i)=>`(${i+1}) 발견 : ${r[0]}\n    AI 표현 : ${r[1]}\n    올바른 처리 : ${r[2]}\n    근거 : ${r[3]}\n    영향 : ${r[4]}`).join("\n") : "(기록 없음)"}
+
+[4] 프로그램 검증 결과
+${a.verify||"(미기재)"}
+
+[5] 감사의견
+${a.opinion||"(미선택)"}
+${a.reason||""}
+
+[6] 나의 검증 기준
+${a.meta||"(미기재)"}`;
+}
+
+/* ---------- 실제 기업 검증 ---------- */
+const DART_ERR = ["최신 연도 수치가 없어 예전 숫자를 말함","연결재무제표와 별도재무제표를 섞음","단위 오독(백만원·천원)","업종 평균을 사실처럼 단정","존재하지 않는 공시·계정 인용","비율 계산 자체가 틀림","좋은 말만 고른 편향된 요약"];
+function viewDart(){
+  const d=ns("dart"); d.fs=d.fs||{};
+  const row = f => `<div class="fsrow"><span>${f.label}</span><input class="amt dfs-in" data-dfs="${f.k}" type="text" inputmode="numeric"></div>`;
+  return `<div class="lede"><h2>실제 기업 재무제표 검증</h2>
+  <p>교과서 속 회사가 아니라 <b>진짜 회사</b>의 숫자를 다룹니다. 공시 원문에서 직접 숫자를 옮기고, 같은 회사에 대해 AI가 한 말을 문장 단위로 쪼개 사실인지 대조합니다. 회계를 배운 사람만 할 수 있는 일이에요.</p></div>
+
+  ${qCard("1","기업 고르고 숫자 가져오기",
+    `<div class="fieldline"><label for="co">검증할 기업</label>
+      <input id="co" type="text" data-st="dart.co" placeholder="예: 더존비즈온 (2025년 사업보고서)" style="max-width:320px"></div>
+     <div class="path" style="white-space:normal;margin-top:10px">dart.fss.or.kr → 회사명 검색 → [사업보고서] → <b>III. 재무에 관한 사항</b> → 재무제표 / 또는 [재무제표 데이터] 탭에서 엑셀로 내려받기</div>
+     <div class="hint"><b>옮겨 적기 전에 확인할 세 가지</b> · ① 단위가 원인가 백만원인가 ② 연결재무제표인가 별도재무제표인가 ③ 당기인가 전기인가. 이 셋을 확인하지 않고 옮기면 뒤의 모든 계산이 무의미해집니다.</div>
+     <p class="note">IT 업종 후보 : 소프트웨어(더존비즈온·티맥스), 플랫폼(네이버·카카오), 게임(크래프톤·펄어비스·넷마블), 하드웨어 유통(에스에이엠티 등). 업종이 다른 두 회사를 함께 골라 비교하면 앞 단계에서 배운 차이가 그대로 보입니다.</p>`,"d1")}
+
+  ${qCard("2","옮겨 적은 숫자로 비율 계산",
+    `<div class="grid2" id="dartFs">
+       <div class="fs"><h3>재무상태표</h3><p class="sub">단위 원 · 원 단위로 환산해서 입력</p>${FS_FIELDS.filter(f=>f.g==="bs").map(row).join("")}</div>
+       <div class="fs"><h3>포괄손익계산서</h3><p class="sub">단위 원</p>${FS_FIELDS.filter(f=>f.g==="is").map(row).join("")}</div>
+     </div>
+     <div id="dartMsg"></div>
+     <div class="ratios" id="dartRatio" style="margin-top:14px"></div>
+     <p class="note">재고자산이 거의 없는 회사라면 재고 관련 비율은 계산되지 않거나 의미가 없습니다. 그 자체가 업종의 특징이니 그대로 기록하세요.</p>`,"d2")}
+
+  ${qCard("3","AI에게 두 번 물어보기",
+    `<p class="note" style="margin:0 0 4px;font-weight:600;color:var(--ink)">첫 번째 — 자료를 주지 않고 물어봅니다.</p>
+     ${promptCard("질문 A", `[회사명]의 최근 재무 상태를 분석해 줘. 매출액, 영업이익, 부채비율, 유동비율을 숫자로 알려주고 투자 의견도 말해 줘.`)}
+     <p class="note" style="margin:14px 0 4px;font-weight:600;color:var(--ink)">두 번째 — 내가 공시에서 옮긴 숫자를 주고 물어봅니다.</p>
+     ${promptCard("질문 B", `아래는 내가 전자공시(DART) 사업보고서에서 직접 옮긴 [회사명]의 재무제표 요약이야. 이 숫자만 사용해서 분석해 주고, 숫자로 확인할 수 없는 내용은 "자료로 확인 불가"라고 표시해 줘.
+
+(여기에 위 표에 입력한 금액을 붙여넣기)`)}
+     <div class="hint">두 답을 나란히 놓고 비교하세요. <b>같은 회사인데 왜 숫자가 다른가?</b> 이 질문이 오늘 수업의 핵심입니다.</div>
+     ${field("dart","compare","두 답변의 차이를 적어 보세요. 특히 A의 숫자가 공시 원문과 얼마나 달랐는지.",4)}`,"d3")}
+
+  ${qCard("4","주장 분해표 · AI의 답을 문장 단위로 판정",
+    repWrap("dart","claims",[
+      {l:"AI가 한 주장(문장 그대로)", p:"한 문장씩 끊어서", w:"32%"},
+      {l:"판정", opts:["근거 확인됨","수치가 틀림","근거 없는 의견","자료로 확인 불가"], w:"14%"},
+      {l:"내가 대조한 실제 수치와 출처", p:"예: 사업보고서 III-2 연결재무상태표, 유동부채 1,204,300백만원", w:"32%"},
+      {l:"고쳐 쓴 문장", p:"사실에 맞게 다시 쓰기", w:"22%"}
+    ],4) +
+    `<p class="note" style="margin-top:12px">자주 나타나는 오류 유형 — 판정할 때 참고하세요.</p>
+     <div>${DART_ERR.map(e=>`<span class="pill">${e}</span>`).join("")}</div>`,"d4")}
+
+  ${qCard("5","내 결론 쓰기",
+    `<p class="note" style="margin:0 0 6px">AI의 요약이 아니라, 내가 대조한 숫자에 근거한 내 문장으로 씁니다.</p>
+     ${field("dart","conclusion","이 회사의 재무 상태를 세 문장으로 정리하고, 가장 주목할 비율 하나와 그 이유를 쓰세요.",4)}
+     <p class="note" style="margin-top:12px;font-weight:600;color:var(--ink)">AI 사용 기록 — 어디까지 AI에게 맡겼고 어디부터 내가 했는지 솔직하게 쓰세요.</p>
+     ${field("dart","usage","예: 비율 해석의 방향은 AI에게 물었고, 모든 숫자는 공시 원문에서 직접 확인했으며 세 군데를 수정했다.",3)}
+     <div class="acts"><button type="button" class="btn" id="makeDartReport">검증 보고서 모아서 복사</button></div>`,"d5")}
+
+  ${qCard("생각","한 걸음 더",
+    `<ul style="margin:0;padding-left:20px;font-size:13.5px">
+      <li>AI가 틀린 숫자를 말했다면, 그 숫자는 어디서 왔을까요? 아예 없는 값일까요, 다른 연도나 다른 회사의 값일까요?</li>
+      <li>같은 질문을 서로 다른 AI에 물었을 때 답이 다르다면, 무엇을 기준으로 옳고 그름을 가릴 수 있을까요?</li>
+      <li>회계 담당자가 AI 답변을 그대로 재무제표에 반영했다가 오류가 드러났다면, 그 책임은 누구에게 있을까요?</li>
+      <li>앞으로 회계 프로그램에 AI가 들어온다면, 사람이 끝까지 쥐고 있어야 할 판단은 무엇일까요?</li>
+    </ul>`,"d6")}`;
+}
+function computeDart(){
+  const src=ns("dart").fs||{}; const d={}; let any=false;
+  FS_FIELDS.forEach(f=>{ const v=src[f.k]; d[f.k]=(v==null||isNaN(v))?0:v; if(v) any=true; });
+  const box=document.getElementById("dartRatio"); if(box) box.innerHTML=ratioCards(d, any);
+  const msg=document.getElementById("dartMsg"); if(!msg) return;
+  const ta=d.ca+d.nca, le=d.cl+d.ncl+d.eq;
+  if(!any){ msg.innerHTML=""; return; }
+  msg.innerHTML = ta===le
+    ? `<div class="okbox">자산총계 ${won(ta)}원 = 부채와 자본 합계. 옮겨 적은 숫자가 서로 맞습니다.</div>`
+    : `<div class="warnbox">자산총계(${won(ta)})와 부채·자본 합계(${won(le)})가 ${won(Math.abs(ta-le))}원 어긋납니다. 단위를 잘못 읽었거나 연결·별도를 섞었을 가능성이 큽니다.</div>`;
+}
+function buildDartReport(){
+  const d=ns("dart"); const rows=(d.claims||[]).filter(r=>r.some(c=>c&&c.trim()));
+  const fs=FS_FIELDS.map(f=>`  ${f.label} : ${d.fs&&d.fs[f.k]!=null?won(d.fs[f.k]):"(미기재)"}`).join("\n");
+  return `■ 실제 기업 재무제표 검증 보고서
+대상 기업 : ${d.co||"(미기재)"}
+
+[1] 공시에서 옮긴 금액
+${fs}
+
+[2] 자료 없이 물었을 때와 자료를 주고 물었을 때의 차이
+${d.compare||"(미기재)"}
+
+[3] 주장 분해
+${rows.length? rows.map((r,i)=>`(${i+1}) 주장 : ${r[0]}\n    판정 : ${r[1]}\n    대조한 실제 수치 : ${r[2]}\n    고쳐 쓴 문장 : ${r[3]}`).join("\n") : "(기록 없음)"}
+
+[4] 내 결론
+${d.conclusion||"(미기재)"}
+
+[5] AI 사용 기록
+${d.usage||"(미기재)"}`;
+}
+
+/* ---------- F2 계정과목·거래처 조회창 ---------- */
+const LK = {el:document.getElementById("lookup"), list:document.getElementById("lkList"),
+  search:document.getElementById("lkSearch"), title:document.getElementById("lkTitle"),
+  target:null, items:[], view:[], idx:0};
+function lkItems(kind){
+  if(kind==="ptn") return PARTNERS.map(p=>({g:"거래처", n:p}));
+  const out=[];
+  for(const g in ACCOUNTS) ACCOUNTS[g].forEach(a=>out.push({g:g, n:a}));
+  return out;
+}
+function openLookup(target){
+  const kind = target.classList.contains("ptn") ? "ptn" : "acc";
+  LK.target=target; LK.items=lkItems(kind);
+  LK.title.textContent = kind==="ptn" ? "거래처 조회" : "계정과목 조회";
+  LK.search.placeholder = kind==="ptn" ? "거래처 이름을 입력하세요" : "계정과목 이름이나 코드를 입력하세요";
+  LK.search.value=""; LK.el.hidden=false;
+  drawLookup(); LK.search.focus();
+}
+function closeLookup(){
+  LK.el.hidden=true;
+  if(LK.target){ const t=LK.target; LK.target=null; t.focus(); }
+}
+function drawLookup(){
+  const q=LK.search.value.trim().toLowerCase();
+  LK.view = q ? LK.items.filter(it=>it.n.toLowerCase().includes(q)) : LK.items.slice();
+  LK.idx=0;
+  if(!LK.view.length){ LK.list.innerHTML=`<li class="lkempty">검색 결과가 없습니다</li>`; return; }
+  LK.list.innerHTML = LK.view.map((it,i)=>
+    `<li role="option" data-i="${i}" aria-selected="${i===0}"><span class="g">${it.g}</span><span>${it.n}</span></li>`).join("");
+}
+function moveLookup(d){
+  if(!LK.view.length) return;
+  LK.idx=(LK.idx+d+LK.view.length)%LK.view.length;
+  LK.list.querySelectorAll("li[role=option]").forEach((li,i)=>li.setAttribute("aria-selected", i===LK.idx));
+  const cur=LK.list.querySelector('li[aria-selected="true"]');
+  if(cur && cur.scrollIntoView) cur.scrollIntoView({block:"nearest"});
+}
+function pickLookup(i){
+  const it=LK.view[i==null?LK.idx:i]; if(!it || !LK.target) return;
+  const t=LK.target; t.value=it.n;
+  t.dispatchEvent(new Event("change",{bubbles:true}));
+  closeLookup();
+}
+LK.search.addEventListener("input", drawLookup);
+LK.search.addEventListener("keydown", e=>{
+  if(e.key==="ArrowDown"){ e.preventDefault(); moveLookup(1); }
+  else if(e.key==="ArrowUp"){ e.preventDefault(); moveLookup(-1); }
+  else if(e.key==="Enter"){ e.preventDefault(); pickLookup(); }
+  else if(e.key==="Escape"){ e.preventDefault(); closeLookup(); }
+});
+LK.list.addEventListener("click", e=>{
+  const li=e.target.closest("li[role=option]"); if(li) pickLookup(Number(li.dataset.i));
+});
+document.getElementById("lkClose").addEventListener("click", closeLookup);
+LK.el.addEventListener("click", e=>{ if(e.target===LK.el) closeLookup(); });
+view.addEventListener("keydown", e=>{
+  const t=e.target;
+  if(e.key!=="F2" || !t || t.tagName!=="SELECT" || !t.classList) return;
+  if(!t.classList.contains("acc") && !t.classList.contains("ptn")) return;
+  e.preventDefault(); openLookup(t);
+});
+
+/* 헤더 버튼 */
+const ZOOMS=[1,1.15,1.3,0.9];
+function applyZoom(){
+  const z=state.zoom||1, el=document.documentElement;
+  const canZoom = window.CSS && CSS.supports && CSS.supports("zoom","1.2");
+  if(canZoom) el.style.zoom = z===1 ? "" : String(z);
+  else document.body.style.fontSize = z===1 ? "" : (15*z)+"px";
+  const b=document.getElementById("sizeBtn");
+  if(b) b.textContent = "화면 "+Math.round(z*100)+"%";
+}
+document.getElementById("sizeBtn").onclick = ()=>{
+  const i=ZOOMS.indexOf(state.zoom||1);
+  state.zoom = ZOOMS[(i+1)%ZOOMS.length]; save(); applyZoom();
+};
+document.getElementById("themeBtn").onclick = ()=>{
+  const cur = document.documentElement.getAttribute("data-theme");
+  const next = cur==="dark" ? "light" : cur==="light" ? "dark" :
+    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "light":"dark");
+  document.documentElement.setAttribute("data-theme", next); state.theme=next; save();
+};
+document.getElementById("resetBtn").onclick = ()=>{
+  if(!confirm("입력한 답과 채점 결과를 모두 지웁니다. 계속할까요?")) return;
+  state={step:state.step, res:{}, inputs:{}, fs:{}, essay:{}, theme:state.theme, zoom:state.zoom};
+  save(); render();
+};
+buildNav(); applyZoom(); render();
+</script>
+</body>
+</html>
